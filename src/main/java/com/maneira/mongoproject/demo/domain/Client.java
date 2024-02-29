@@ -43,11 +43,11 @@ public class Client implements Serializable {
         this.name = name;
     }
 
-    public String getcontact() {
+    public String getContact() {
         return contact;
     }
 
-    public void setcontact(String contact) {
+    public void setContact(String contact) {
         this.contact = contact;
     }
 

@@ -2,6 +2,7 @@ package com.maneira.mongoproject.demo.config;
 
 import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.repository.ClientRepository;
+import com.maneira.mongoproject.demo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,9 @@ public class Instantiation implements CommandLineRunner {
 
     @Autowired
     private ClientRepository ClientRepository;
+
+    @Autowired
+    private ClientService clientService;
 
 
     @Override

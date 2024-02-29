@@ -24,5 +24,12 @@ public class ClientResource {
         return ResponseEntity.ok().body(listDto);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ClientDTO> findById(@PathVariable String id){
+        Client client = service.findById(id);
+        return ResponseEntity.ok().body(new ClientDTO(client));
+
+    }
+
 
 }

@@ -19,7 +19,7 @@ public class ClientDTO {
     public ClientDTO(Client obj) {
         id = obj.getId();
         name = obj.getName();
-        contact = obj.getcontact();
+        contact = obj.getContact();
         total = obj.getTotal();
     }
 

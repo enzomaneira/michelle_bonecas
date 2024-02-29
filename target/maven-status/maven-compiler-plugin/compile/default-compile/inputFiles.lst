@@ -1,5 +1,11 @@
-/home/maneira/Área de Trabalho/SpringBoot/mongodb-project/src/main/java/com/maneira/mongoproject/demo/domain/User.java
-/home/maneira/Área de Trabalho/SpringBoot/mongodb-project/src/main/java/com/maneira/mongoproject/demo/service/UserService.java
-/home/maneira/Área de Trabalho/SpringBoot/mongodb-project/src/main/java/com/maneira/mongoproject/demo/resources/UserResource.java
-/home/maneira/Área de Trabalho/SpringBoot/mongodb-project/src/main/java/com/maneira/mongoproject/demo/DemoApplication.java
-/home/maneira/Área de Trabalho/SpringBoot/mongodb-project/src/main/java/com/maneira/mongoproject/demo/repository/UserRepository.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/resources/exception/StandardError.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/service/exceptions/ObjectNotFoundException.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/resources/exception/ResourceExceptionHandler.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/resources/ClientResource.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/service/ClientService.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/config/Instantiation.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/domain/Client.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/dto/ClientDTO.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/repository/ClientRepository.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/resources/util/URL.java
+/home/maneira/Documentos/MichelleManeiraBonecasApp/michellebonecas_code/src/main/java/com/maneira/mongoproject/demo/DemoApplication.java
