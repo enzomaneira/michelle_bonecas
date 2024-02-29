@@ -1,27 +1,30 @@
 package com.maneira.mongoproject.demo.domain;
 
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document(collection = "client")
-public class Client implements Serializable {
+@Document(collection = "product")
+public class Product implements Serializable {
 
     @Id
     private String id;
     private String name;
-    private String contact;
+    private Double price;
+    private String imgUrl;
 
-    public Client(){
+    public Product(){
 
     }
 
-    public Client(String id, String name, String contact) {
+    public Product(String id, String name, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
-        this.contact = contact;
+        this.price = price;
+        this.imgUrl = imgUrl;
     }
 
     public String getId() {
@@ -40,20 +43,27 @@ public class Client implements Serializable {
         this.name = name;
     }
 
-    public String getContact() {
-        return contact;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Client user)) return false;
-        return Objects.equals(getId(), user.getId());
+        if (!(o instanceof Product product)) return false;
+        return Objects.equals(getId(), product.getId());
     }
 
     @Override

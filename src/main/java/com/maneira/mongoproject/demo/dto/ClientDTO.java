@@ -1,7 +1,6 @@
 package com.maneira.mongoproject.demo.dto;
 
 import com.maneira.mongoproject.demo.domain.Client;
-import org.springframework.data.annotation.Id;
 
 public class ClientDTO {
 
@@ -10,8 +9,6 @@ public class ClientDTO {
     private String name;
     private String contact;
 
-    private Double total;
-    ;
     public ClientDTO(){
 
     }
@@ -20,7 +17,6 @@ public class ClientDTO {
         id = obj.getId();
         name = obj.getName();
         contact = obj.getContact();
-        total = obj.getTotal();
     }
 
     public String getId() {
@@ -39,19 +35,12 @@ public class ClientDTO {
         this.name = name;
     }
 
-    public String getcontact() {
+    public String getContact() {
         return contact;
     }
 
-    public void setcontact(String contact) {
+    public void setContact(String contact) {
         this.contact = contact;
     }
 
-    public Double getTotal() {
-        return total;
-    }
-
-    public void setTotal(Double total) {
-        this.total = total;
-    }
 }

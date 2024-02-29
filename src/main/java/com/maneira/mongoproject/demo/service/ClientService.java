@@ -30,7 +30,7 @@ public class ClientService {
     }
 
     public Client fromDto(ClientDTO objDto){
-        return new Client(objDto.getId(), objDto.getName(), objDto.getcontact(), objDto.getTotal());
+        return new Client(objDto.getId(), objDto.getName(), objDto.getContact());
     }
 
     public void delete(String id){
@@ -47,7 +47,6 @@ public class ClientService {
     private void updateData(Client newObj, Client obj) {
         newObj.setName(obj.getName());
         newObj.setContact(obj.getContact());
-        newObj.setTotal(obj.getTotal());
     }
 
 }
