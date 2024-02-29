@@ -1,0 +1,5 @@
+com/maneira/mongoproject/demo/service/UserService.class
+com/maneira/mongoproject/demo/domain/User.class
+com/maneira/mongoproject/demo/DemoApplication.class
+com/maneira/mongoproject/demo/resources/UserResource.class
+com/maneira/mongoproject/demo/repository/UserRepository.class
