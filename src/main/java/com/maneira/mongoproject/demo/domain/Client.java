@@ -1,32 +1,30 @@
 package com.maneira.mongoproject.demo.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-@Document(collection = "user")
-public class User implements Serializable {
+@Document(collection = "client")
+public class Client implements Serializable {
 
     @Id
     private String id;
     private String name;
-    private String email;
-    @DBRef(lazy = true)
-    private List<Post> posts = new ArrayList<>();
+    private String contact;
+
+    private Double total;
 ;
-    public User(){
+    public Client(){
 
     }
 
-    public User(String id, String name, String email) {
+    public Client(String id, String name, String contact, Double total) {
         this.id = id;
         this.name = name;
-        this.email = email;
+        this.contact = contact;
+        this.total = total;
     }
 
     public String getId() {
@@ -45,26 +43,26 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getcontact() {
+        return contact;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setcontact(String contact) {
+        this.contact = contact;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public Double getTotal() {
+        return total;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void setTotal(Double total) {
+        this.total = total;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User user)) return false;
+        if (!(o instanceof Client user)) return false;
         return Objects.equals(getId(), user.getId());
     }
 
