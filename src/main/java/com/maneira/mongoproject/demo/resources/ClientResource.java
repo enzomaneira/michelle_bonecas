@@ -1,12 +1,14 @@
 package com.maneira.mongoproject.demo.resources;
-
+;
 import com.maneira.mongoproject.demo.domain.Client;
+import com.maneira.mongoproject.demo.dto.ClientDTO;
 import com.maneira.mongoproject.demo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/client")
@@ -16,9 +18,10 @@ public class ClientResource {
     private ClientService service;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Client>> findAll(){
+    public ResponseEntity<List<ClientDTO>> findAll(){
         List<Client> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+        List<ClientDTO> listDto = list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 
 
