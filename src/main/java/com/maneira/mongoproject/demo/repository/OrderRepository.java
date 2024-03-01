@@ -27,6 +27,9 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     @Query("{ 'items.product.name' : { $regex: ?0, $options: 'i' } }")
     List<Order> findByItemsProductNameIgnoreCase(String productName);
 
+    @Query("{ 'date': { $gte: ?0, $lte: ?1 } }")
+    List<Order> findByDateRange(Date startDate, Date endDate);
+
 
 
 

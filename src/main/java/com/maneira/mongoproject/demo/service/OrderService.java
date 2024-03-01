@@ -41,6 +41,10 @@ public class OrderService {
         return repo.findByItemsProductNameIgnoreCase(productName);
     }
 
+    public List<Order> findOrdersByDateRange(Date startDate, Date endDate) {
+        return repo.findByDateRange(startDate, endDate);
+    }
+
     public List<Order> customSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product) {
         return repo.customSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
     }

@@ -51,6 +51,19 @@ public class OrderResource {
         List<Order> list = orderService.findByProduct(productName);
         return ResponseEntity.ok().body(list);
     }
+
+    @RequestMapping(value = "/findByDate", method=RequestMethod.GET)
+    public ResponseEntity<List<Order>> findByDate(@RequestParam(value = "minDate", required = false) String minDate,
+                                                  @RequestParam(value = "maxDate", required = false) String maxDate) {
+        Date startDate = URL.convertDate(minDate, new Date(0L));
+        Date endDate = URL.convertDate(maxDate, new Date());
+
+        List<Order> list = orderService.findOrdersByDateRange(startDate, endDate);
+
+        return ResponseEntity.ok().body(list);
+    }
+
+
     @RequestMapping(value = "/customSearch", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> customSearch(
             @RequestParam(required = false) String text,
