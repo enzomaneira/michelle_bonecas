@@ -20,7 +20,6 @@ public class ProductDTO {
         imgUrl = obj.getImgUrl();
     }
 
-    // Métodos getters e setters
 
     public String getId() {
         return id;
