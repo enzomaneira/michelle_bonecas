@@ -45,7 +45,12 @@ public class OrderResource {
         return ResponseEntity.ok().body(list);
     }
 
-
+    @RequestMapping(value = "/findclientbyproduct", method=RequestMethod.GET)
+    public ResponseEntity<List<Order>> findByProduct(@RequestParam(value = "text", defaultValue = "") String productName){
+        productName = URL.decodeParam(productName);
+        List<Order> list = orderService.findByProduct(productName);
+        return ResponseEntity.ok().body(list);
+    }
     @RequestMapping(value = "/customSearch", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> customSearch(
             @RequestParam(required = false) String text,

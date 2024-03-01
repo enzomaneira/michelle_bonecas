@@ -24,6 +24,9 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     @Query("{ 'client.name' : { $regex: ?0, $options: 'i' } }")
     List<Order> findByClientNameIgnoreCase(String clientName);
 
+    @Query("{ 'items.product.name' : { $regex: ?0, $options: 'i' } }")
+    List<Order> findByItemsProductNameIgnoreCase(String productName);
+
 
 
 

@@ -37,6 +37,10 @@ public class OrderService {
         return repo.findByClientNameIgnoreCase(clientName);
     }
 
+    public List<Order> findByProduct(String productName){
+        return repo.findByItemsProductNameIgnoreCase(productName);
+    }
+
     public List<Order> customSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product) {
         return repo.customSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
     }
