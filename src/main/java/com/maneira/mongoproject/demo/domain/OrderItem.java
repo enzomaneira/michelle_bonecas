@@ -10,7 +10,6 @@ import java.util.Objects;
 
 public class OrderItem implements Serializable {
 
-
     private Product product;
 
     private Integer qtd;

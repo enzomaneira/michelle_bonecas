@@ -15,9 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TimeZone;
 
 @Configuration
 public class Instantiation implements CommandLineRunner {
@@ -31,8 +28,6 @@ public class Instantiation implements CommandLineRunner {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    private OrderService orderService;
 
     @Override
     public void run(String... arg0) throws Exception {
@@ -54,16 +49,36 @@ public class Instantiation implements CommandLineRunner {
         clientRepository.saveAll(Arrays.asList(maria, alex, bob));
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
-        OrderItem orderItem1 = new OrderItem( p1,  2, 25.0);
+        OrderItem orderItem1 = new OrderItem(p1,  2, 25.0);
         OrderItem orderItem2 = new OrderItem( p4,  1, 35.99);
-        Date orderDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01");
-        Client orderClient = maria;
-        Order order = new Order(null, orderDate, orderClient);
+        Date orderDate1 = new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01");
+        Client orderClient1 = maria;
+        Order order1 = new Order(null, orderDate1, orderClient1);
+        order1.getItems().add(orderItem1);
+        order1.getItems().add(orderItem2);
+        orderRepository.save(order1);
 
-        order.getItems().add(orderItem1);
-        order.getItems().add(orderItem2);
+
+        OrderItem orderItem3 = new OrderItem(p2,  3, 30.0);
+        OrderItem orderItem4 = new OrderItem(p3,  1, 45.50);
+        Date orderDate2 = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-15");
+        Client orderClient2 = alex;
+        Order order2 = new Order(null, orderDate2, orderClient2);
+        order2.getItems().add(orderItem3);
+        order2.getItems().add(orderItem4);
+        orderRepository.save(order2);
 
 
-        orderRepository.save(order);
+        OrderItem order3Item1 = new OrderItem(p2, 3, 15.0);
+        OrderItem order3Item2 = new OrderItem(p3, 1, 45.50);
+
+        Date order3Date = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-15");
+        Client order3Client = alex;
+        Order order3 = new Order(null, order3Date, order3Client);
+
+        order3.getItems().add(order3Item1);
+        order3.getItems().add(order3Item2);
+
+        orderRepository.save(order3);
     }
 }
