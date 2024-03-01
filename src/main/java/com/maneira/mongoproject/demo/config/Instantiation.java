@@ -54,9 +54,8 @@ public class Instantiation implements CommandLineRunner {
         clientRepository.saveAll(Arrays.asList(maria, alex, bob));
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
-        OrderItem orderItem1 = new OrderItem(null, p1,  2, 25.0);
-        OrderItem orderItem2 = new OrderItem(null, p4,  1, 35.99);
-
+        OrderItem orderItem1 = new OrderItem( p1,  2, 25.0);
+        OrderItem orderItem2 = new OrderItem( p4,  1, 35.99);
         Date orderDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01");
         Client orderClient = maria;
         Order order = new Order(null, orderDate, orderClient);

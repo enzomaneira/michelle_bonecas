@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -59,6 +61,15 @@ public class Order {
 
     public void setItems(Set<OrderItem> items) {
         this.items = items;
+    }
+
+    public Double getTotal() {
+        double sum = 0.0;
+        for (OrderItem x : items) {
+            sum += x.getSubTotal();
+        }
+        BigDecimal totalBigDecimal = new BigDecimal(sum);
+        return totalBigDecimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     @Override

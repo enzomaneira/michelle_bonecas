@@ -2,6 +2,7 @@ package com.maneira.mongoproject.demo.service;
 
 import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.repository.OrderRepository;
+import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,14 @@ public class OrderService {
 
     public Order findById(String id) {
         Optional<Order> obj = repo.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
+
+
+    public void delete(String id) {
+        findById(id);
+        repo.deleteById(id);
+    }
+
+
 }

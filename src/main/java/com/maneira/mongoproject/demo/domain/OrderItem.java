@@ -8,35 +8,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Document
 public class OrderItem implements Serializable {
 
-    @Id
-    private String id;
 
     private Product product;
 
     private Integer qtd;
     private Double price;
 
+    private Double total;
+
     public OrderItem(){
 
     }
 
-    public OrderItem(String id,  Product product, Integer qtd, Double price) {
-        this.id = id;
+    public OrderItem(Product product, Integer qtd, Double price) {;
         this.product = product;
         this.qtd = qtd;
         this.price = price;
     }
 
-    public String getId(){
-        return id;
-    }
-
-    public void setId(){
-        this.id = id;
-    }
 
     public Integer getQtd() {
         return qtd;
@@ -62,15 +53,8 @@ public class OrderItem implements Serializable {
         this.product = product;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof OrderItem orderItem)) return false;
-        return Objects.equals(getId(), orderItem.getId()) && Objects.equals(getQtd(), orderItem.getQtd()) && Objects.equals(getPrice(), orderItem.getPrice());
+    public Double getSubTotal() {
+        return price * qtd;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getQtd(), getPrice());
-    }
 }
