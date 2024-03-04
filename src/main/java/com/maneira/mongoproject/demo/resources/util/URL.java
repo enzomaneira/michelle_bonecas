@@ -26,4 +26,12 @@ public class URL {
             return defaultValue;
         }
     }
+
+    public static Double convertDouble(String textDouble, Double defaultValue) {
+        try {
+            return Double.parseDouble(textDouble);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
 }

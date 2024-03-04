@@ -11,24 +11,26 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-
 @Document
 public class Order {
 
     @Id
     private String id;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
     private Date date;
-    private Client client;
 
+    private Client client;
+    private Double total;
     private Set<OrderItem> items = new HashSet<>();
 
-    public Order(){}
+    public Order() {}
 
-    public Order(String id, Date date, Client client) {
+    public Order(String id, Date date, Client client, Double total) {
         this.id = id;
         this.date = date;
         this.client = client;
+        this.total = total;
     }
 
     public String getId() {
@@ -55,6 +57,16 @@ public class Order {
         this.client = client;
     }
 
+    public void updateTotal() {
+        double sum = 0.0;
+        for (OrderItem x : items) {
+            sum += x.getSubTotal();
+        }
+        this.total = new BigDecimal(sum)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
+
     public Set<OrderItem> getItems() {
         return items;
     }
@@ -64,12 +76,7 @@ public class Order {
     }
 
     public Double getTotal() {
-        double sum = 0.0;
-        for (OrderItem x : items) {
-            sum += x.getSubTotal();
-        }
-        BigDecimal totalBigDecimal = new BigDecimal(sum);
-        return totalBigDecimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return total;
     }
 
     @Override

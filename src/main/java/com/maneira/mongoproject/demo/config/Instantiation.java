@@ -49,13 +49,14 @@ public class Instantiation implements CommandLineRunner {
         clientRepository.saveAll(Arrays.asList(maria, alex, bob));
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
-        OrderItem orderItem1 = new OrderItem(p1,  2, 25.0);
-        OrderItem orderItem2 = new OrderItem( p4,  1, 35.99);
+        OrderItem orderItem1 = new OrderItem(p1, 2, 25.0);
+        OrderItem orderItem2 = new OrderItem(p4, 1, 35.99);
         Date orderDate1 = new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01");
         Client orderClient1 = maria;
-        Order order1 = new Order(null, orderDate1, orderClient1);
+        Order order1 = new Order(null, orderDate1, orderClient1, null);
         order1.getItems().add(orderItem1);
         order1.getItems().add(orderItem2);
+        order1.updateTotal();
         orderRepository.save(order1);
 
 
@@ -63,9 +64,10 @@ public class Instantiation implements CommandLineRunner {
         OrderItem orderItem4 = new OrderItem(p3,  1, 45.50);
         Date orderDate2 = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-15");
         Client orderClient2 = alex;
-        Order order2 = new Order(null, orderDate2, orderClient2);
+        Order order2 = new Order(null, orderDate2, orderClient2, null);
         order2.getItems().add(orderItem3);
         order2.getItems().add(orderItem4);
+        order2.updateTotal();
         orderRepository.save(order2);
 
 
@@ -74,11 +76,12 @@ public class Instantiation implements CommandLineRunner {
 
         Date order3Date = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-15");
         Client order3Client = alex;
-        Order order3 = new Order(null, order3Date, order3Client);
+        Order order3 = new Order(null, order3Date, order3Client, null);
 
         order3.getItems().add(order3Item1);
         order3.getItems().add(order3Item2);
 
+        order3.updateTotal();
         orderRepository.save(order3);
     }
 }

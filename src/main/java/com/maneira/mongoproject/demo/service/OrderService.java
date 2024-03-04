@@ -45,6 +45,10 @@ public class OrderService {
         return repo.findByDateRange(startDate, endDate);
     }
 
+    public List<Order> findByTotalRange(Double minTotal, Double maxTotal) {
+        return repo.findByTotalBetween(minTotal, maxTotal);
+    }
+
     public List<Order> customSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product) {
         return repo.customSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
     }
@@ -52,6 +56,11 @@ public class OrderService {
     public Date parseDate(String dateString) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.parse(dateString);
+    }
+
+    public Order save(Order order) {
+        order.updateTotal();
+        return repo.save(order);
     }
 
 

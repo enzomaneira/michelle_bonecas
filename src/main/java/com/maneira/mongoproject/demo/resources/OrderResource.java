@@ -63,6 +63,19 @@ public class OrderResource {
         return ResponseEntity.ok().body(list);
     }
 
+    @RequestMapping(value = "findByTotal", method = RequestMethod.GET)
+    public ResponseEntity<List<Order>> searchByTotalRange(
+            @RequestParam(required = false) String minTotal,
+            @RequestParam(required = false) String maxTotal) {
+
+        Double parsedMinTotal = URL.convertDouble(minTotal, null);
+        Double parsedMaxTotal = URL.convertDouble(maxTotal, null);
+
+        List<Order> list = orderService.findByTotalRange(parsedMinTotal, parsedMaxTotal);
+        return ResponseEntity.ok().body(list);
+    }
+
+
 
     @RequestMapping(value = "/customSearch", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> customSearch(
