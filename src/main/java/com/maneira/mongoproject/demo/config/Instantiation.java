@@ -72,14 +72,13 @@ public class Instantiation implements CommandLineRunner {
 
 
         OrderItem order3Item1 = new OrderItem(p2, 3, 15.0);
-        OrderItem order3Item2 = new OrderItem(p3, 1, 45.50);
-
+        OrderItem order3Item5 = new OrderItem(p5, 1, 20.50);
         Date order3Date = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-15");
         Client order3Client = alex;
         Order order3 = new Order(null, order3Date, order3Client, null);
 
         order3.getItems().add(order3Item1);
-        order3.getItems().add(order3Item2);
+        order3.getItems().add(order3Item5);
 
         order3.updateTotal();
         orderRepository.save(order3);

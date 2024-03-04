@@ -15,12 +15,12 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     @Query("{ $and: [ " +
             "{ date: { $gte: ?1, $lte: ?2 } }, " +
             "{ total: { $gte: ?3, $lte: ?4 } }, " +
-            "{ $or: [ " +
-            "{ 'client.name': { $regex: { $exists: ?5, $ne: null, $options: 'i' } } }, " +
-            "{ 'items.product.name': { $regex: { $exists: ?6, $ne: null, $options: 'i' } } }" +
+            "{ $and: [ " +
+            "{ 'client.name': { $regex: ?5, $options: 'i' } }, " +
+            "{ 'items.product.name': { $regex: ?6, $options: 'i' } }" +
             "] }" +
             "] }")
-    List<Order> customSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product);
+    List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product);
 
     @Query("{ 'client.name' : { $regex: ?0, $options: 'i' } }")
     List<Order> findByClientNameIgnoreCase(String clientName);
@@ -32,8 +32,5 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     List<Order> findByDateRange(Date startDate, Date endDate);
 
     List<Order> findByTotalBetween(Double minTotal, Double maxTotal);
-
-
-
 
 }

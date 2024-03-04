@@ -49,8 +49,8 @@ public class OrderService {
         return repo.findByTotalBetween(minTotal, maxTotal);
     }
 
-    public List<Order> customSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product) {
-        return repo.customSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
+    public List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product) {
+        return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
     }
 
     public Date parseDate(String dateString) throws ParseException {
@@ -62,8 +62,4 @@ public class OrderService {
         order.updateTotal();
         return repo.save(order);
     }
-
-
-
-
 }
