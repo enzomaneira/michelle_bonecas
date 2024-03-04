@@ -27,6 +27,10 @@ public class OrderService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
+    public Order insert(Order order){
+        return repo.insert(order);
+    }
+
 
     public void delete(String id) {
         findById(id);

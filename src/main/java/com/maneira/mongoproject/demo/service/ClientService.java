@@ -49,4 +49,16 @@ public class ClientService {
         newObj.setContact(obj.getContact());
     }
 
+    public List<Client> findByName(String name) {
+        return repo.findByNameContainingIgnoreCase(name);
+    }
+
+    public List<Client> findByContact(String contact) {
+        return repo.findByContactContainingIgnoreCase(contact);
+    }
+
+    public List<Client> findByNameAndContact(String name, String contact) {
+        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCase(name, contact);
+    }
+
 }

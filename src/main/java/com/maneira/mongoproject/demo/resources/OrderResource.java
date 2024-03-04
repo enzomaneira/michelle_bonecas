@@ -1,12 +1,15 @@
 package com.maneira.mongoproject.demo.resources;
 
+import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Order;
+import com.maneira.mongoproject.demo.dto.ClientDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.text.ParseException;
@@ -24,6 +27,13 @@ public class OrderResource {
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.findAll();
         return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    @RequestMapping(method=RequestMethod.POST)
+    public ResponseEntity<Void> insert(@RequestBody Order order){
+        order = orderService.insert(order);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(order.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
