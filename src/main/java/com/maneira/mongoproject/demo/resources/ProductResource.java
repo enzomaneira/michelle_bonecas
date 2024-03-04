@@ -2,6 +2,7 @@ package com.maneira.mongoproject.demo.resources;
 
 import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.ProductDTO;
+import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,5 +53,41 @@ public class ProductResource {
         obj.setId(id);
         obj = service.update(obj);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/findByName", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductDTO>> findByName(@RequestParam(value = "text", defaultValue = "") String name) {
+        name = URL.decodeParam(name);
+        List<Product> list = service.findByName(name);
+        List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
+    @RequestMapping(value = "/findByPriceRange", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductDTO>> findByPriceRange(
+            @RequestParam(required = false) String minPrice,
+            @RequestParam(required = false) String maxPrice) {
+
+        Double parsedMinPrice = URL.convertDouble(minPrice, null);
+        Double parsedMaxPrice = URL.convertDouble(maxPrice, null);
+
+        List<Product> list = service.findByPriceRange(parsedMinPrice, parsedMaxPrice);
+        List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductDTO>> searchProducts(
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "minPrice", required = false) String minPrice,
+            @RequestParam(value = "maxPrice", required = false) String maxPrice) {
+
+        name = URL.decodeParam(name);
+        Double parsedMinPrice = URL.convertDouble(minPrice, null);
+        Double parsedMaxPrice = URL.convertDouble(maxPrice, null);
+
+        List<Product> list = service.findByNameAndPriceRange(name, parsedMinPrice, parsedMaxPrice);
+        List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 }

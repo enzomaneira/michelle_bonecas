@@ -49,4 +49,16 @@ public class ProductService {
         newObj.setPrice(obj.getPrice());
         newObj.setImgUrl(obj.getImgUrl());
     }
+
+    public List<Product> findByName(String name) {
+        return repo.findByNameContainingIgnoreCase(name);
+    }
+
+    public List<Product> findByPriceRange(Double minPrice, Double maxPrice) {
+        return repo.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    public List<Product> findByNameAndPriceRange(String name, Double minPrice, Double maxPrice) {
+        return repo.findByNameIgnoreCaseContainingAndPriceBetween(name, minPrice, maxPrice);
+    }
 }
