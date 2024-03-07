@@ -51,6 +51,10 @@ public class ClientDTO {
         return client;
     }
 
+    public static ClientDTO fromEntity(Client clientEntity) {
+        return new ClientDTO(clientEntity);
+    }
+
     @Override
     public String toString() {
         return "ClientDTO{" +

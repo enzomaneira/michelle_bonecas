@@ -3,6 +3,7 @@ package com.maneira.mongoproject.demo.service;
 import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.OrderDTO;
+import com.maneira.mongoproject.demo.dto.OrderItemDTO;
 import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.repository.OrderRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
@@ -61,7 +62,7 @@ public class OrderService {
     }
 
     public Order fromDto(OrderDTO objDto) throws ParseException {
-        return new Order(objDto.getId(), objDto.getDate(), objDto.toEntity().getClient());
+        return new Order(objDto.getId(), objDto.getDate(), objDto.toEntity().getClient(), objDto.getTotal());
     }
 
     public Order save(Order order) {

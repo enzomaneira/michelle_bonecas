@@ -12,7 +12,7 @@ public class OrderItemDTO {
     private Double price;
     private Double total;
 
-    public OrderItemDTO(ProductDTO productDTO, Integer qtd, Double price) {}
+    public OrderItemDTO() {}
 
     public OrderItemDTO(OrderItem orderItem) {
         this.product = new ProductDTO(orderItem.getProduct());
@@ -60,6 +60,20 @@ public class OrderItemDTO {
         return new OrderItem(product, qtd, price);
     }
 
+    public Double getSubTotal() {
+        return price * qtd;
+    }
+
+    public OrderItem toEntity() {
+        Product productEntity = (product != null) ? product.toEntity() : null;
+        return new OrderItem(productEntity, qtd, price);
+    }
+
+    public static OrderItemDTO fromDto(OrderItem orderItemEntity) {
+        ProductDTO productDto = (orderItemEntity.getProduct() != null) ? ProductDTO.fromEntity(orderItemEntity.getProduct()) : null;
+        return new OrderItemDTO();
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -84,5 +98,8 @@ public class OrderItemDTO {
                 ", price=" + price +
                 ", total=" + total +
                 '}';
+    }
+
+    public void setTotal(Double subTotal) {
     }
 }

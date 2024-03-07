@@ -28,10 +28,9 @@ public class OrderResource {
     private OrderService orderService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+    public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.findAll();
-        List<OrderDTO> listDto = orders.stream().map(x -> new OrderDTO(x)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(listDto);
+        return ResponseEntity.ok().body(orders);
     }
 
     @RequestMapping(method=RequestMethod.POST)
@@ -43,9 +42,9 @@ public class OrderResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<OrderDTO> getOrderById(@PathVariable String id) {
+    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
         Order order = orderService.findById(id);
-        return  ResponseEntity.ok().body(new OrderDTO(order));
+        return  ResponseEntity.ok().body(order);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

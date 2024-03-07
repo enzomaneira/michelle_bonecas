@@ -57,6 +57,10 @@ public class ProductDTO {
         return new Product(id, name, price, imgUrl);
     }
 
+    public static ProductDTO fromEntity(Product productEntity) {
+        return new ProductDTO(productEntity);
+    }
+
     @Override
     public String toString() {
         return "ProductDTO{" +

@@ -17,11 +17,14 @@ public class OrderItem implements Serializable {
 
     private Double total;
 
-    public OrderItem(){
+
+
+    public OrderItem() {
 
     }
 
-    public OrderItem(Product product, Integer qtd, Double price) {;
+    public OrderItem(Product product, Integer qtd, Double price) {
+        ;
         this.product = product;
         this.qtd = qtd;
         this.price = price;
@@ -56,13 +59,4 @@ public class OrderItem implements Serializable {
         return price * qtd;
     }
 
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "product=" + product +
-                ", qtd=" + qtd +
-                ", price=" + price +
-                ", total=" + total +
-                '}';
-    }
 }

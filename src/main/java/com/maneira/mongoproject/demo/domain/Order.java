@@ -1,9 +1,12 @@
 package com.maneira.mongoproject.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maneira.mongoproject.demo.dto.ClientDTO;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -12,29 +15,34 @@ import java.util.Objects;
 import java.util.Set;
 
 @Document
-public class Order {
+public class Order implements Serializable {
 
     @Id
     private String id;
 
+    @DBRef
+    private ClientDTO client;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
     private Date date;
 
-    private Client client;
+    private Double total;
 
-    private Set<OrderItem> items = new HashSet<>();
+    private Set<OrderItem> items = new HashSet<OrderItem>();
 
     public Order(){
 
     }
 
-    public Order(String id, String date, Client client) {}
+    public Order(String id, Client client, Date date) {}
 
-    public Order(String id, Date date, Client client) {
+    public Order(String id, Date date, ClientDTO client, Double total) {
         this.id = id;
         this.date = date;
         this.client = client;
+        this.total = calculateTotal();
     }
+
 
     public String getId() {
         return id;
@@ -52,11 +60,11 @@ public class Order {
         this.date = date;
     }
 
-    public Client getClient() {
+    public ClientDTO getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(ClientDTO client) {
         this.client = client;
     }
 
@@ -69,14 +77,21 @@ public class Order {
     }
 
     public Double getTotal() {
+        return total;
+    }
+
+    private Double calculateTotal() {
         double sum = 0.0;
-        for (OrderItem x : items) {
-            sum += x.getSubTotal();
+        for (OrderItem item : items) {
+            sum += item.getSubTotal();
         }
         return new BigDecimal(sum)
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
     }
+
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -90,13 +105,6 @@ public class Order {
         return Objects.hash(getId());
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", date=" + date +
-                ", client=" + client +
-                ", items=" + items +
-                '}';
-    }
+
+
 }
