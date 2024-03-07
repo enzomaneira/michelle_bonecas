@@ -43,4 +43,20 @@ public class ClientDTO {
         this.contact = contact;
     }
 
+    public Client toEntity() {
+        Client client = new Client();
+        client.setId(this.id);
+        client.setName(this.name);
+        client.setContact(this.contact);
+        return client;
+    }
+
+    @Override
+    public String toString() {
+        return "ClientDTO{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", contact='" + contact + '\'' +
+                '}';
+    }
 }

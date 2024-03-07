@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/clients")
+@CrossOrigin
 public class ClientResource {
 
     @Autowired
@@ -36,6 +37,7 @@ public class ClientResource {
 
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity<Void> insert(@RequestBody ClientDTO objDto){
+        System.out.println("Dados do cliente recebidos no servidor: " + objDto.toString());
         Client obj = service.fromDto(objDto);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

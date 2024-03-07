@@ -1,13 +1,16 @@
 package com.maneira.mongoproject.demo.service;
 
 import com.maneira.mongoproject.demo.domain.Order;
+import com.maneira.mongoproject.demo.domain.Product;
+import com.maneira.mongoproject.demo.dto.OrderDTO;
+import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.repository.OrderRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +30,10 @@ public class OrderService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
-    public Order insert(Order order){
+    public Order insert(Order order) {
+        order.getTotal();
         return repo.insert(order);
     }
-
 
     public void delete(String id) {
         findById(id);
@@ -41,7 +44,7 @@ public class OrderService {
         return repo.findByClientNameIgnoreCase(clientName);
     }
 
-    public List<Order> findByProduct(String productName){
+    public List<Order> findByProduct(String productName) {
         return repo.findByItemsProductNameIgnoreCase(productName);
     }
 
@@ -57,13 +60,12 @@ public class OrderService {
         return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
     }
 
-    public Date parseDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.parse(dateString);
+    public Order fromDto(OrderDTO objDto) throws ParseException {
+        return new Order(objDto.getId(), objDto.getDate(), objDto.toEntity().getClient());
     }
 
     public Order save(Order order) {
-        order.updateTotal();
+        order.getTotal();
         return repo.save(order);
     }
 }

@@ -3,6 +3,8 @@ package com.maneira.mongoproject.demo.resources;
 import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.dto.ClientDTO;
+import com.maneira.mongoproject.demo.dto.OrderDTO;
+import com.maneira.mongoproject.demo.dto.OrderItemDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,31 +17,35 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
+@CrossOrigin
 public class OrderResource {
 
     @Autowired
     private OrderService orderService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Order>> getAllOrders() {
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
         List<Order> orders = orderService.findAll();
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        List<OrderDTO> listDto = orders.stream().map(x -> new OrderDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Order order){
-        order = orderService.insert(order);
+    public ResponseEntity<Void> insert(@RequestBody OrderDTO order) throws ParseException {
+        Order obj = orderService.fromDto(order);
+        obj = orderService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(order.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable String id) {
         Order order = orderService.findById(id);
-        return new ResponseEntity<>(order, HttpStatus.OK);
+        return  ResponseEntity.ok().body(new OrderDTO(order));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

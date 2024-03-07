@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/products")
+@CrossOrigin
 public class ProductResource {
 
     @Autowired
@@ -35,6 +36,7 @@ public class ProductResource {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@RequestBody ProductDTO objDto) {
+        System.out.println("Dados do produto recebidos no servidor: " + objDto.toString());
         Product obj = service.fromDto(objDto);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

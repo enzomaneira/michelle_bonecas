@@ -12,6 +12,10 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends MongoRepository<Order, String> {
 
+    List<Order> findAll();
+
+    List<Order> findById();
+
     @Query("{ $and: [ " +
             "{ date: { $gte: ?1, $lte: ?2 } }, " +
             "{ total: { $gte: ?3, $lte: ?4 } }, " +

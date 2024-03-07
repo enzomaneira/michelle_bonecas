@@ -52,4 +52,18 @@ public class ProductDTO {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+    public Product toEntity() {
+        return new Product(id, name, price, imgUrl);
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", imgUrl='" + imgUrl + '\'' +
+                '}';
+    }
 }

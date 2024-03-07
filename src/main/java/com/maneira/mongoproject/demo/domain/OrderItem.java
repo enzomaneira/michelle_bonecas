@@ -56,4 +56,13 @@ public class OrderItem implements Serializable {
         return price * qtd;
     }
 
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "product=" + product +
+                ", qtd=" + qtd +
+                ", price=" + price +
+                ", total=" + total +
+                '}';
+    }
 }

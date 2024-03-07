@@ -21,16 +21,19 @@ public class Order {
     private Date date;
 
     private Client client;
-    private Double total;
+
     private Set<OrderItem> items = new HashSet<>();
 
-    public Order() {}
+    public Order(){
 
-    public Order(String id, Date date, Client client, Double total) {
+    }
+
+    public Order(String id, String date, Client client) {}
+
+    public Order(String id, Date date, Client client) {
         this.id = id;
         this.date = date;
         this.client = client;
-        this.total = total;
     }
 
     public String getId() {
@@ -57,16 +60,6 @@ public class Order {
         this.client = client;
     }
 
-    public void updateTotal() {
-        double sum = 0.0;
-        for (OrderItem x : items) {
-            sum += x.getSubTotal();
-        }
-        this.total = new BigDecimal(sum)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
-    }
-
     public Set<OrderItem> getItems() {
         return items;
     }
@@ -76,7 +69,13 @@ public class Order {
     }
 
     public Double getTotal() {
-        return total;
+        double sum = 0.0;
+        for (OrderItem x : items) {
+            sum += x.getSubTotal();
+        }
+        return new BigDecimal(sum)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
     @Override
@@ -89,5 +88,15 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id='" + id + '\'' +
+                ", date=" + date +
+                ", client=" + client +
+                ", items=" + items +
+                '}';
     }
 }
