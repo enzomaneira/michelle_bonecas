@@ -1,9 +1,12 @@
 package com.maneira.mongoproject.demo.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maneira.mongoproject.demo.domain.Client;
+import org.springframework.beans.BeanUtils;
+import java.io.IOException;
+import java.io.Serializable;
 
-public class ClientDTO {
-
+public class ClientDTO implements Serializable {
 
     private String id;
     private String name;
@@ -17,6 +20,12 @@ public class ClientDTO {
         id = obj.getId();
         name = obj.getName();
         contact = obj.getContact();
+    }
+
+    public ClientDTO(String jsonString) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ClientDTO clientDTO = objectMapper.readValue(jsonString, ClientDTO.class);
+        BeanUtils.copyProperties(clientDTO, this);
     }
 
     public String getId() {
@@ -49,10 +58,6 @@ public class ClientDTO {
         client.setName(this.name);
         client.setContact(this.contact);
         return client;
-    }
-
-    public static ClientDTO fromEntity(Client clientEntity) {
-        return new ClientDTO(clientEntity);
     }
 
     @Override

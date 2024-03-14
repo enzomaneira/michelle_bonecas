@@ -6,7 +6,6 @@ import com.maneira.mongoproject.demo.repository.ProductRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -27,10 +26,6 @@ public class ProductService {
 
     public Product insert(Product product) {
         return repo.insert(product);
-    }
-
-    public Product fromDto(ProductDTO objDto) {
-        return new Product(objDto.getId(), objDto.getName(), objDto.getPrice(), objDto.getImgUrl());
     }
 
     public void delete(String id) {
@@ -61,4 +56,9 @@ public class ProductService {
     public List<Product> findByNameAndPriceRange(String name, Double minPrice, Double maxPrice) {
         return repo.findByNameIgnoreCaseContainingAndPriceBetween(name, minPrice, maxPrice);
     }
+
+    public Product fromDto(ProductDTO product){
+        return new Product(product.getId(), product.getName(), product.getPrice(), product.getImgUrl());
+    }
+
 }

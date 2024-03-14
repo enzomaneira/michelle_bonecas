@@ -2,7 +2,6 @@ package com.maneira.mongoproject.demo.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,9 +13,7 @@ public class Client implements Serializable {
     private String name;
     private String contact;
 
-    public Client(){
-
-    }
+    public Client(){}
 
     public Client(String id, String name, String contact) {
         this.id = id;
@@ -48,9 +45,6 @@ public class Client implements Serializable {
         this.contact = contact;
     }
 
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,5 +55,14 @@ public class Client implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", contact='" + contact + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,5 @@
 package com.maneira.mongoproject.demo.resources;
-;
+
 import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.dto.ClientDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,9 +79,7 @@ public class ClientResource {
             @RequestParam(value = "contact", required = false) String contact) {
         if (name != null) name = URL.decodeParam(name);
         if (contact != null) contact = URL.decodeParam(contact);
-
         List<Client> list;
-
         if (name != null && contact != null) {
             list = service.findByNameAndContact(name, contact);
         } else if (name != null) {

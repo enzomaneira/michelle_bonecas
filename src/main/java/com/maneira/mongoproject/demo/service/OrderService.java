@@ -1,20 +1,16 @@
 package com.maneira.mongoproject.demo.service;
 
+import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Order;
-import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.OrderDTO;
+import com.maneira.mongoproject.demo.domain.OrderItem;
+import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.OrderItemDTO;
-import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.repository.OrderRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -22,17 +18,23 @@ public class OrderService {
     @Autowired
     private OrderRepository repo;
 
+    @Autowired
+    private static ClientService clientService;
+
     public List<Order> findAll() {
         return repo.findAll();
     }
 
     public Order findById(String id) {
+        if (id == null) {
+            throw new IllegalArgumentException("The given id must not be null");
+        }
+
         Optional<Order> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
     public Order insert(Order order) {
-        order.getTotal();
         return repo.insert(order);
     }
 
@@ -61,12 +63,52 @@ public class OrderService {
         return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
     }
 
-    public Order fromDto(OrderDTO objDto) throws ParseException {
-        return new Order(objDto.getId(), objDto.getDate(), objDto.toEntity().getClient(), objDto.getTotal());
-    }
-
     public Order save(Order order) {
-        order.getTotal();
+        if (order.getClient() == null || order.getClient().getId() == null) {
+            throw new IllegalArgumentException("A order must have a valid client associated with it.");
+        }
+        Client client = clientService.findById(order.getClient().getId());
+        order.setClient(client);
+        Double total = order.getTotal();
+        order.setTotal(total);
         return repo.save(order);
     }
+    public Order fromDto(OrderDTO dto) {
+        System.out.println("DTO: " + dto);
+        Client client = dto.getClient();
+        Date date = dto.getDate();
+        System.out.println("Client: " + client + ", Date: " + date);
+        Set<OrderItem> newOrderItems = new HashSet<>();
+        Double total = 0.0;
+        if (dto.getOrderItems() != null) {
+            for (OrderItemDTO itemDTO : dto.getOrderItems()) {
+                System.out.println("OrderItemDTO: " + itemDTO);
+                Product product = itemDTO.getProduct().toEntity();
+                System.out.println("ProductDTO: " + itemDTO.getProduct() + " -> Product: " + product);
+                OrderItem newOrderItem = itemDTO.toEntity();
+                System.out.println("New Order Item: " + newOrderItem);
+                newOrderItem.setProduct(product);
+                Double subTotal = newOrderItem.getSubTotal();
+                System.out.println("SubTotal: " + subTotal);
+                total += subTotal;
+                newOrderItem.setSubTotal(subTotal);
+                newOrderItems.add(newOrderItem);
+            }
+        }
+        System.out.println("New Order Items: " + newOrderItems);
+        System.out.println("Total: " + total);
+        Order order = new Order(null, date, client, total);
+        order.setItems(newOrderItems);
+        System.out.println("Order Items in Order: " + order.getOrderItems());
+        System.out.println("Order: " + order);
+        return order;
+    }
+
+
+
+
+
+
+
+
 }

@@ -1,6 +1,5 @@
 package com.maneira.mongoproject.demo.domain;
 
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,9 +15,7 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
-    public Product(){
-
-    }
+    public Product(){}
 
     public Product(String id, String name, Double price, String imgUrl) {
         this.id = id;
@@ -69,5 +66,15 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", imgUrl='" + imgUrl + '\'' +
+                '}';
     }
 }

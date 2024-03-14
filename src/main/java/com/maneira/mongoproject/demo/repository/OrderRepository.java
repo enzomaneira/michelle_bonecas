@@ -4,8 +4,6 @@ import com.maneira.mongoproject.demo.domain.Order;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.mongodb.repository.Aggregation;
-
 import java.util.Date;
 import java.util.List;
 

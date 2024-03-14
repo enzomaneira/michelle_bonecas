@@ -1,8 +1,12 @@
 package com.maneira.mongoproject.demo.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maneira.mongoproject.demo.domain.Product;
+import org.springframework.beans.BeanUtils;
+import java.io.IOException;
+import java.io.Serializable;
 
-public class ProductDTO {
+public class ProductDTO implements Serializable {
 
     private String id;
     private String name;
@@ -18,6 +22,12 @@ public class ProductDTO {
         name = obj.getName();
         price = obj.getPrice();
         imgUrl = obj.getImgUrl();
+    }
+
+    public ProductDTO(String jsonString) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDTO productDTO = objectMapper.readValue(jsonString, ProductDTO.class);
+        BeanUtils.copyProperties(productDTO, this);
     }
 
 
@@ -70,4 +80,6 @@ public class ProductDTO {
                 ", imgUrl='" + imgUrl + '\'' +
                 '}';
     }
+
+
 }

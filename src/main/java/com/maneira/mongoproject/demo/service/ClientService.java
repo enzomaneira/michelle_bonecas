@@ -6,7 +6,6 @@ import com.maneira.mongoproject.demo.repository.ClientRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -61,4 +60,7 @@ public class ClientService {
         return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCase(name, contact);
     }
 
+    public Client fromDTO(ClientDTO client){
+        return new Client(client.getId(), client.getName(), client.getContact());
+    }
 }

@@ -1,10 +1,7 @@
 package com.maneira.mongoproject.demo.resources;
 
-import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Order;
-import com.maneira.mongoproject.demo.dto.ClientDTO;
 import com.maneira.mongoproject.demo.dto.OrderDTO;
-import com.maneira.mongoproject.demo.dto.OrderItemDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
 @CrossOrigin
 public class OrderResource {
-
     @Autowired
     private OrderService orderService;
 
@@ -34,10 +27,11 @@ public class OrderResource {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody OrderDTO order) throws ParseException {
-        Order obj = orderService.fromDto(order);
+    public ResponseEntity<OrderDTO> insert(@RequestBody OrderDTO objDTO)  {
+        System.out.println("Dados do pedido recebidos no servidor: " + objDTO.toString());
+        Order obj = orderService.fromDto(objDTO);
         obj = orderService.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(order.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
@@ -107,4 +101,6 @@ public class OrderResource {
         List<Order> result = orderService.fullSearch(text, min, max, minTotal, maxTotal, client, product);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+
 }

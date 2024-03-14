@@ -2,23 +2,31 @@ package com.maneira.mongoproject.demo.dto;
 
 import com.maneira.mongoproject.demo.domain.OrderItem;
 import com.maneira.mongoproject.demo.domain.Product;
+import java.io.Serializable;
 
-import java.util.Objects;
+public class OrderItemDTO implements Serializable {
 
-public class OrderItemDTO {
-
+    private String id;
     private ProductDTO product;
-    private Integer qtd;
     private Double price;
-    private Double total;
+    private Integer quantity;
+    private Double subTotal;
 
-    public OrderItemDTO() {}
+    public OrderItemDTO(OrderItem orderItem) {}
 
-    public OrderItemDTO(OrderItem orderItem) {
-        this.product = new ProductDTO(orderItem.getProduct());
-        this.qtd = orderItem.getQtd();
-        this.price = orderItem.getPrice();
-        this.total = orderItem.getSubTotal();
+    public OrderItemDTO(String id, ProductDTO product, Double price, Integer quantity) {
+        this.id = id;
+        this.product = product;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public ProductDTO getProduct() {
@@ -29,77 +37,56 @@ public class OrderItemDTO {
         this.product = product;
     }
 
-    public Integer getQtd() {
-        return qtd;
-    }
-
-    public void setQtd(Integer qtd) {
-        this.qtd = qtd;
-        this.total = calculateTotal();
-    }
-
     public Double getPrice() {
         return price;
     }
 
     public void setPrice(Double price) {
         this.price = price;
-        this.total = calculateTotal();
     }
 
-    public Double getTotal() {
-        return total;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    private Double calculateTotal() {
-        return (qtd != null && price != null) ? qtd * price : null;
-    }
-
-    public OrderItem toEntity(ProductDTO productDTO) {
-        Product product = (productDTO != null) ? productDTO.toEntity() : null;
-        return new OrderItem(product, qtd, price);
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Double getSubTotal() {
-        return price * qtd;
+        if (quantity != null) {
+            return price * quantity;
+        } else {
+            return 0.0;
+        }
     }
+
+    public void setSubTotal(Double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public OrderItem fromDto(OrderItemDTO dto) {
+        ProductDTO productDto = dto.getProduct();
+        Product product = new Product(productDto.getId(), productDto.getName(), productDto.getPrice(), productDto.getImgUrl());
+        OrderItem orderItem = new OrderItem(dto.getId(), product, dto.getPrice(), dto.getQuantity());
+        Double subTotal = orderItem.getSubTotal();
+        dto.setSubTotal(subTotal);
+        return orderItem;
+    }
+
 
     public OrderItem toEntity() {
-        Product productEntity = (product != null) ? product.toEntity() : null;
-        return new OrderItem(productEntity, qtd, price);
-    }
-
-    public static OrderItemDTO fromDto(OrderItem orderItemEntity) {
-        ProductDTO productDto = (orderItemEntity.getProduct() != null) ? ProductDTO.fromEntity(orderItemEntity.getProduct()) : null;
-        return new OrderItemDTO();
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof OrderItemDTO orderItemDTO)) return false;
-        return Objects.equals(getProduct(), orderItemDTO.getProduct())
-                && Objects.equals(getQtd(), orderItemDTO.getQtd())
-                && Objects.equals(getPrice(), orderItemDTO.getPrice())
-                && Objects.equals(getTotal(), orderItemDTO.getTotal());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getProduct(), getQtd(), getPrice(), getTotal());
+        return new OrderItem(id, product.toEntity(), price, quantity);
     }
 
     @Override
     public String toString() {
         return "OrderItemDTO{" +
-                "product=" + product +
-                ", qtd=" + qtd +
+                "id='" + id + '\'' +
+                ", product=" + product +
                 ", price=" + price +
-                ", total=" + total +
+                ", quantity=" + quantity +
+                ", subTotal=" + subTotal +
                 '}';
-    }
-
-    public void setTotal(Double subTotal) {
     }
 }

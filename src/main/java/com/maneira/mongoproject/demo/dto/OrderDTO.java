@@ -1,63 +1,29 @@
 package com.maneira.mongoproject.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.domain.OrderItem;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import static java.util.stream.Collectors.*;
+public class OrderDTO implements Serializable {
 
-public class OrderDTO {
-
-    private String id;
-    private ClientDTO client;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
     private Date date;
-    private Double total;
-    private List<OrderItemDTO> items;
+    private Client client;
+    private Set<OrderItemDTO> orderItems;
 
     public OrderDTO() {
-
+        this.orderItems = new HashSet<>();
     }
 
-    public OrderDTO(String id, ClientDTO client, Date date, Double total, List<OrderItemDTO> items) {
-        this.id = id;
-        this.client = client;
+    public OrderDTO(Date date, Client client, Set<OrderItemDTO> orderItems) {
         this.date = date;
-        this.total = total;
-        this.items = items;
-    }
-
-
-
-    private String formatDate(Date date) {
-        return new SimpleDateFormat("yyyy-MM-dd").format(date);
-    }
-
-    private List<OrderItemDTO> convertOrderItemsToDTO(Set<OrderItem> orderItems) {
-        return orderItems.stream()
-                .map(OrderItemDTO::new)
-                .collect(toList());
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public ClientDTO getClient() {
-        return client;
-    }
-
-    public void setClient(ClientDTO client) {
         this.client = client;
+        this.orderItems = orderItems;
     }
 
     public Date getDate() {
@@ -68,55 +34,34 @@ public class OrderDTO {
         this.date = date;
     }
 
-    public Double getTotal() {
-        return total;
+    public Client getClient() {
+        return client;
     }
 
-    public void setTotal(Double total) {
-        this.total = total;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public List<OrderItemDTO> getItems() {
-        return items;
+    public Set<OrderItemDTO> getOrderItems() {
+        return orderItems;
     }
 
-    public void setItems(List<OrderItemDTO> items) {
-        this.items = items;
+    public void setOrderItems(Set<OrderItemDTO> orderItems) {
+        this.orderItems = orderItems;
     }
 
-    public Order toEntity() throws ParseException {
-        Order order = new Order(id, date, client, total);
-
-        if (items != null) {
-            Set<OrderItem> orderItems = new HashSet<>();
-            for (OrderItemDTO item : items) {
-                OrderItem entity = item.toEntity();
-                orderItems.add(entity);  // Correção aqui
+    public Order fromDto() {
+        Order order = new Order();
+        order.setDate(this.date);
+        order.setClient(this.client);
+        Set<OrderItem> items = new HashSet<>();
+        if (this.orderItems != null) {
+            for (OrderItemDTO itemDTO : this.orderItems) {
+                items.add(itemDTO.toEntity());
             }
-
-            order.setItems(orderItems);
         }
+        order.setItems(items);
 
         return order;
-    }
-    public static OrderItemDTO fromDto(OrderItem orderItemEntity) {
-        ProductDTO productDto = (orderItemEntity.getProduct() != null) ? ProductDTO.fromEntity(orderItemEntity.getProduct()) : null;
-        OrderItemDTO orderItemDTO = new OrderItemDTO();
-        orderItemDTO.setProduct(productDto);
-        orderItemDTO.setQtd(orderItemEntity.getQtd());
-        orderItemDTO.setPrice(orderItemEntity.getPrice());
-        orderItemDTO.setTotal(orderItemEntity.getSubTotal());
-        return orderItemDTO;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderDTO{" +
-                "id='" + id + '\'' +
-                ", client=" + client +
-                ", date=" + date +
-                ", total=" + total +
-                ", items=" + items +
-                '}';
     }
 }
