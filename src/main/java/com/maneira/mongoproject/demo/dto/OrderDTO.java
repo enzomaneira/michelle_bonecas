@@ -17,6 +17,7 @@ public class OrderDTO implements Serializable {
     private Set<OrderItemDTO> orderItems;
 
     public OrderDTO() {
+        this.orderItems = getOrderItems();
     }
 
     public OrderDTO(Date date, Client client, Set<OrderItemDTO> items) {
@@ -59,7 +60,7 @@ public class OrderDTO implements Serializable {
                 items.add(itemDTO.toEntity());
             }
         }
-        order.setOrderItems(items);
+        order.setItems(items);
 
         return order;
     }
