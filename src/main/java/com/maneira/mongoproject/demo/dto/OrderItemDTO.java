@@ -9,16 +9,16 @@ public class OrderItemDTO implements Serializable {
     private String id;
     private ProductDTO product;
     private Double price;
-    private Integer quantity;
+    private Integer qtd;
     private Double subTotal;
 
     public OrderItemDTO(OrderItem orderItem) {}
 
-    public OrderItemDTO(String id, ProductDTO product, Double price, Integer quantity) {
+    public OrderItemDTO(String id, ProductDTO product, Double price, Integer qtd) {
         this.id = id;
         this.product = product;
         this.price = price;
-        this.quantity = quantity;
+        this.qtd = qtd;
     }
 
     public String getId() {
@@ -45,17 +45,17 @@ public class OrderItemDTO implements Serializable {
         this.price = price;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getQtd() {
+        return qtd;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setQtd(Integer qtd) {
+        this.qtd = qtd;
     }
 
     public Double getSubTotal() {
-        if (quantity != null) {
-            return price * quantity;
+        if (qtd != null) {
+            return price * qtd;
         } else {
             return 0.0;
         }
@@ -68,7 +68,7 @@ public class OrderItemDTO implements Serializable {
     public OrderItem fromDto(OrderItemDTO dto) {
         ProductDTO productDto = dto.getProduct();
         Product product = new Product(productDto.getId(), productDto.getName(), productDto.getPrice(), productDto.getImgUrl());
-        OrderItem orderItem = new OrderItem(dto.getId(), product, dto.getPrice(), dto.getQuantity());
+        OrderItem orderItem = new OrderItem(dto.getId(), product, dto.getPrice(), dto.getQtd());
         Double subTotal = orderItem.getSubTotal();
         dto.setSubTotal(subTotal);
         return orderItem;
@@ -76,7 +76,7 @@ public class OrderItemDTO implements Serializable {
 
 
     public OrderItem toEntity() {
-        return new OrderItem(id, product.toEntity(), price, quantity);
+        return new OrderItem(id, product.toEntity(), price, qtd);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class OrderItemDTO implements Serializable {
                 "id='" + id + '\'' +
                 ", product=" + product +
                 ", price=" + price +
-                ", quantity=" + quantity +
+                ", qtd=" + qtd +
                 ", subTotal=" + subTotal +
                 '}';
     }

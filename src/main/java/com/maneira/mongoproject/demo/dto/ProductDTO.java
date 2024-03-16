@@ -3,6 +3,7 @@ package com.maneira.mongoproject.demo.dto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maneira.mongoproject.demo.domain.Product;
 import org.springframework.beans.BeanUtils;
+
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -64,7 +65,12 @@ public class ProductDTO implements Serializable {
     }
 
     public Product toEntity() {
-        return new Product(id, name, price, imgUrl);
+        Product product = new Product();
+        product.setId(this.id);
+        product.setName(this.name);
+        product.setPrice(this.price);
+        product.setImgUrl(this.imgUrl);
+        return product;
     }
 
     public static ProductDTO fromEntity(Product productEntity) {
@@ -80,6 +86,4 @@ public class ProductDTO implements Serializable {
                 ", imgUrl='" + imgUrl + '\'' +
                 '}';
     }
-
-
 }

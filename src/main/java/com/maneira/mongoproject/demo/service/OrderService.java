@@ -4,6 +4,7 @@ import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.dto.OrderDTO;
 import com.maneira.mongoproject.demo.domain.OrderItem;
+
 import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.OrderItemDTO;
 import com.maneira.mongoproject.demo.repository.OrderRepository;
@@ -19,7 +20,7 @@ public class OrderService {
     private OrderRepository repo;
 
     @Autowired
-    private static ClientService clientService;
+    private ClientService clientService;
 
     public List<Order> findAll() {
         return repo.findAll();
@@ -73,6 +74,7 @@ public class OrderService {
         order.setTotal(total);
         return repo.save(order);
     }
+
     public Order fromDto(OrderDTO dto) {
         System.out.println("DTO: " + dto);
         Client client = dto.getClient();
@@ -82,6 +84,10 @@ public class OrderService {
         Double total = 0.0;
         if (dto.getOrderItems() != null) {
             for (OrderItemDTO itemDTO : dto.getOrderItems()) {
+                if (itemDTO.getId() == null) {
+                    String itemId = UUID.randomUUID().toString();
+                    itemDTO.setId(itemId);
+                }
                 System.out.println("OrderItemDTO: " + itemDTO);
                 Product product = itemDTO.getProduct().toEntity();
                 System.out.println("ProductDTO: " + itemDTO.getProduct() + " -> Product: " + product);
@@ -103,12 +109,4 @@ public class OrderService {
         System.out.println("Order: " + order);
         return order;
     }
-
-
-
-
-
-
-
-
 }

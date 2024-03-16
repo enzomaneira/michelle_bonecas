@@ -14,18 +14,18 @@ public class OrderItem implements Serializable {
     private String id;
     private Product product;
     private Double price;
-    private Integer quantity;
+    private Integer qtd;
     private Double subTotal;
 
     public OrderItem(){
 
     }
 
-    public OrderItem(String id, Product product, Double price, Integer quantity) {
+    public OrderItem(String id, Product product, Double price, Integer qtd) {
         this.id = id;
         this.product = product;
         this.price = price;
-        this.quantity = quantity;
+        this.qtd = qtd;
     }
 
     public String getId() {
@@ -53,17 +53,17 @@ public class OrderItem implements Serializable {
     }
 
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getQtd() {
+        return qtd;
     }
 
-    public void setQuantity(Integer qtd) {
-        this.quantity = qtd;
+    public void setQtd(Integer qtd) {
+        this.qtd = qtd;
     }
 
     public Double getSubTotal() {
-        if (quantity != null) {
-            return price * quantity;
+        if (qtd != null) {
+            return price * qtd;
         } else {
             return 0.0;
         }
@@ -77,23 +77,23 @@ public class OrderItem implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof OrderItem orderItem)) return false;
-        return Objects.equals(getId(), orderItem.getId()) && Objects.equals(getProduct(), orderItem.getProduct()) && Objects.equals(getPrice(), orderItem.getPrice()) && Objects.equals(getQuantity(), orderItem.getQuantity()) && Objects.equals(getSubTotal(), orderItem.getSubTotal());
+        return Objects.equals(getId(), orderItem.getId()) && Objects.equals(getProduct(), orderItem.getProduct()) && Objects.equals(getPrice(), orderItem.getPrice()) && Objects.equals(getQtd(), orderItem.getQtd()) && Objects.equals(getSubTotal(), orderItem.getSubTotal());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getProduct(), getPrice(), getQuantity(), getSubTotal());
+        return Objects.hash(getId(), getProduct(), getPrice(), getQtd(), getSubTotal());
     }
 
     public static OrderItem fromDto(OrderItemDTO dto) {
         ProductDTO productDto = dto.getProduct();
         Product product = new Product(productDto.getId(), productDto.getName(), productDto.getPrice(), productDto.getImgUrl());
-        return new OrderItem(dto.getId(), product, dto.getPrice(), dto.getQuantity());
+        return new OrderItem(dto.getId(), product, dto.getPrice(), dto.getQtd());
     }
 
     public OrderItemDTO toDto() {
         ProductDTO productDto = new ProductDTO(product);
-        return new OrderItemDTO(id, productDto, price, quantity);
+        return new OrderItemDTO(id, productDto, price, qtd);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class OrderItem implements Serializable {
                 "id='" + id + '\'' +
                 ", product=" + product +
                 ", price=" + price +
-                ", quantity=" + quantity +
+                ", qtd=" + qtd +
                 ", subTotal=" + subTotal +
                 '}';
     }
