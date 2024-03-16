@@ -21,7 +21,7 @@ public class Order implements Serializable {
     private Double total;
 
     @DBRef
-    private Set<OrderItem> items = new HashSet<>();
+    private Set<OrderItem> orderItems = new HashSet<>();
 
     public Order(){}
 
@@ -60,17 +60,13 @@ public class Order implements Serializable {
         this.total = total;
     }
 
-    public Set<OrderItem> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<OrderItem> items) {
-        this.items = items;
+    public void setOrderItems(Set<OrderItem> items) {
+        this.orderItems = items;
     }
 
     public double getTotal() {
         double sum = 0.0;
-        for (OrderItem x : items) {
+        for (OrderItem x : orderItems) {
             if (x != null) {
                 sum += x.getSubTotal();
             }
@@ -79,7 +75,7 @@ public class Order implements Serializable {
     }
 
     public Set<OrderItem> getOrderItems() {
-        return items;
+        return orderItems;
     }
 
     @Override
@@ -101,7 +97,7 @@ public class Order implements Serializable {
                 ", date=" + date +
                 ", client=" + client +
                 ", total=" + total +
-                ", orderItems=" + items +
+                ", orderItems=" + orderItems +
                 '}';
     }
 

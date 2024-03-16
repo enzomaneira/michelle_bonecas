@@ -17,10 +17,9 @@ public class OrderDTO implements Serializable {
     private Set<OrderItemDTO> orderItems;
 
     public OrderDTO() {
-        this.orderItems = new HashSet<>();
     }
 
-    public OrderDTO(Date date, Client client, Set<OrderItemDTO> orderItems) {
+    public OrderDTO(Date date, Client client, Set<OrderItemDTO> items) {
         this.date = date;
         this.client = client;
         this.orderItems = orderItems;
@@ -60,7 +59,7 @@ public class OrderDTO implements Serializable {
                 items.add(itemDTO.toEntity());
             }
         }
-        order.setItems(items);
+        order.setOrderItems(items);
 
         return order;
     }
