@@ -17,10 +17,9 @@ public class OrderDTO implements Serializable {
     private Set<OrderItemDTO> orderItems;
 
     public OrderDTO() {
-        this.orderItems = getOrderItems();
     }
 
-    public OrderDTO(Date date, Client client, Set<OrderItemDTO> items) {
+    public OrderDTO(Date date, Client client, Set<OrderItemDTO> orderItems) {
         this.date = date;
         this.client = client;
         this.orderItems = orderItems;

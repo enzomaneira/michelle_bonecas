@@ -1,6 +1,7 @@
 package com.maneira.mongoproject.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maneira.mongoproject.demo.dto.OrderItemDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,10 +25,11 @@ public class Order implements Serializable {
 
     public Order(){}
 
-    public Order(String id, Date date, Client client, Double total) {
+    public Order(String id, Date date, Client client, Double total, Set<OrderItem> items) {
         this.id = id;
         this.date = date;
         this.client = client;
+        this.items = items;
         this.total = total;
     }
 
@@ -59,6 +61,10 @@ public class Order implements Serializable {
         this.total = total;
     }
 
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
     public void setItems(Set<OrderItem> items) {
         this.items = items;
     }
@@ -71,10 +77,6 @@ public class Order implements Serializable {
             }
         }
         return Math.round(sum * 100.0) / 100.0;
-    }
-
-    public Set<OrderItem> getItems() {
-        return items;
     }
 
     @Override
@@ -96,11 +98,7 @@ public class Order implements Serializable {
                 ", date=" + date +
                 ", client=" + client +
                 ", total=" + total +
-                ", items=" + items +
+                ", orderItems=" + items +
                 '}';
     }
-
-
-
-
 }

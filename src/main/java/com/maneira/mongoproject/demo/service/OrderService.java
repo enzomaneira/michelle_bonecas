@@ -103,7 +103,7 @@ public class OrderService {
         }
         System.out.println("New Order Items: " + newOrderItems);
         System.out.println("Total: " + total);
-        Order order = new Order(null, date, client, total);
+        Order order = new Order(null, date, client, total, newOrderItems);
         order.setItems(newOrderItems);
         System.out.println("Order Items in Order: " + order.getItems());
         System.out.println("Order: " + order);
