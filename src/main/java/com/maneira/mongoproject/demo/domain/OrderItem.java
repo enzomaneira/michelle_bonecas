@@ -91,10 +91,6 @@ public class OrderItem implements Serializable {
         return new OrderItem(dto.getId(), product, dto.getPrice(), dto.getQtd());
     }
 
-    public OrderItemDTO toDto() {
-        ProductDTO productDto = new ProductDTO(product);
-        return new OrderItemDTO(id, productDto, price, qtd);
-    }
 
     @Override
     public String toString() {

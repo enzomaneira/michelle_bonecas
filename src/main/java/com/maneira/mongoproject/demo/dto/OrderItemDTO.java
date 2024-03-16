@@ -12,13 +12,13 @@ public class OrderItemDTO implements Serializable {
     private Integer qtd;
     private Double subTotal;
 
-    public OrderItemDTO(OrderItem orderItem) {}
+    public OrderItemDTO() {}
 
-    public OrderItemDTO(String id, ProductDTO product, Double price, Integer qtd) {
-        this.id = id;
-        this.product = product;
-        this.price = price;
-        this.qtd = qtd;
+    public OrderItemDTO(OrderItem orderItem) {
+        this.id = orderItem.getId();
+        this.product = new ProductDTO(orderItem.getProduct());
+        this.price = orderItem.getPrice();
+        this.qtd = orderItem.getQtd();
     }
 
     public String getId() {

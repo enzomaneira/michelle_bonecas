@@ -64,30 +64,20 @@ public class OrderService {
         return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
     }
 
-    public Order save(Order order) {
-        if (order.getClient() == null || order.getClient().getId() == null) {
-            throw new IllegalArgumentException("A order must have a valid client associated with it.");
-        }
-        Client client = clientService.findById(order.getClient().getId());
-        order.setClient(client);
-        Double total = order.getTotal();
-        order.setTotal(total);
-        return repo.save(order);
-    }
-
     public Order fromDto(OrderDTO dto) {
         System.out.println("DTO: " + dto);
         Client client = dto.getClient();
         Date date = dto.getDate();
         System.out.println("Client: " + client + ", Date: " + date);
-        Set<OrderItem> newOrderItems = new HashSet<>();
+        Set<OrderItem> items = new HashSet<>();
         Double total = 0.0;
-        if (dto.getOrderItems() != null) {
-            for (OrderItemDTO itemDTO : dto.getOrderItems()) {
-                if (itemDTO.getId() == null) {
-                    String itemId = UUID.randomUUID().toString();
-                    itemDTO.setId(itemId);
-                }
+        if (dto.getItems() != null) {
+            System.out.println("get items nao esta nulo:   " + dto.getItems());
+            for (OrderItemDTO itemDTO : dto.getItems()) {
+                //if (itemDTO.getId() == null) {
+                 //   String itemId = UUID.randomUUID().toString();
+                 //   itemDTO.setId(itemId);
+                //}
                 System.out.println("OrderItemDTO: " + itemDTO);
                 Product product = itemDTO.getProduct().toEntity();
                 System.out.println("ProductDTO: " + itemDTO.getProduct() + " -> Product: " + product);
@@ -98,13 +88,13 @@ public class OrderService {
                 System.out.println("SubTotal: " + subTotal);
                 total += subTotal;
                 newOrderItem.setSubTotal(subTotal);
-                newOrderItems.add(newOrderItem);
+                items.add(newOrderItem);
             }
         }
-        System.out.println("New Order Items: " + newOrderItems);
+        System.out.println("New Order Items: " + items);
         System.out.println("Total: " + total);
-        Order order = new Order(null, date, client, total, newOrderItems);
-        order.setItems(newOrderItems);
+        Order order = new Order(null, date, client, total);
+        order.setItems(items);
         System.out.println("Order Items in Order: " + order.getItems());
         System.out.println("Order: " + order);
         return order;

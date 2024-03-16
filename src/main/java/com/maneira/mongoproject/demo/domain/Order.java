@@ -25,11 +25,10 @@ public class Order implements Serializable {
 
     public Order(){}
 
-    public Order(String id, Date date, Client client, Double total, Set<OrderItem> items) {
+    public Order(String id, Date date, Client client, Double total) {
         this.id = id;
         this.date = date;
         this.client = client;
-        this.items = items;
         this.total = total;
     }
 
@@ -98,7 +97,7 @@ public class Order implements Serializable {
                 ", date=" + date +
                 ", client=" + client +
                 ", total=" + total +
-                ", orderItems=" + items +
+                ", items=" + items +
                 '}';
     }
 }

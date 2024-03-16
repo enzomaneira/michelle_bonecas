@@ -14,15 +14,14 @@ public class OrderDTO implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
     private Date date;
     private Client client;
-    private Set<OrderItemDTO> orderItems;
+    private Set<OrderItemDTO> items;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(Date date, Client client, Set<OrderItemDTO> orderItems) {
+    public OrderDTO(Date date, Client client) {
         this.date = date;
         this.client = client;
-        this.orderItems = orderItems;
     }
 
     public Date getDate() {
@@ -41,12 +40,12 @@ public class OrderDTO implements Serializable {
         this.client = client;
     }
 
-    public Set<OrderItemDTO> getOrderItems() {
-        return orderItems;
+    public Set<OrderItemDTO> getItems() {
+        return items;
     }
 
-    public void setOrderItems(Set<OrderItemDTO> orderItems) {
-        this.orderItems = orderItems;
+    public void setItems(Set<OrderItemDTO> items) {
+        this.items = items;
     }
 
     public Order fromDto() {
@@ -54,8 +53,8 @@ public class OrderDTO implements Serializable {
         order.setDate(this.date);
         order.setClient(this.client);
         Set<OrderItem> items = new HashSet<>();
-        if (this.orderItems != null) {
-            for (OrderItemDTO itemDTO : this.orderItems) {
+        if (this.items != null) {
+            for (OrderItemDTO itemDTO : this.items) {
                 items.add(itemDTO.toEntity());
             }
         }
