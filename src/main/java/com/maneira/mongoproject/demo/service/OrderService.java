@@ -44,25 +44,10 @@ public class OrderService {
         repo.deleteById(id);
     }
 
-    public List<Order> findByClient(String clientName) {
-        return repo.findByClientNameIgnoreCase(clientName);
-    }
-
-    public List<Order> findByProduct(String productName) {
-        return repo.findByItemsProductNameIgnoreCase(productName);
-    }
-
-    public List<Order> findOrdersByDateRange(Date startDate, Date endDate) {
-        return repo.findByDateRange(startDate, endDate);
-    }
-
     public List<Order> findByTotalRange(Double minTotal, Double maxTotal) {
         return repo.findByTotalBetween(minTotal, maxTotal);
     }
 
-    public List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product) {
-        return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
-    }
 
     public Order fromDto(OrderDTO dto) {
         System.out.println("DTO: " + dto);
@@ -74,10 +59,6 @@ public class OrderService {
         if (dto.getItems() != null) {
             System.out.println("get items nao esta nulo:   " + dto.getItems());
             for (OrderItemDTO itemDTO : dto.getItems()) {
-                //if (itemDTO.getId() == null) {
-                 //   String itemId = UUID.randomUUID().toString();
-                 //   itemDTO.setId(itemId);
-                //}
                 System.out.println("OrderItemDTO: " + itemDTO);
                 Product product = itemDTO.getProduct().toEntity();
                 System.out.println("ProductDTO: " + itemDTO.getProduct() + " -> Product: " + product);
