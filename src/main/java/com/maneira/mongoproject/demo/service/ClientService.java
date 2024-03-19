@@ -60,8 +60,8 @@ public class ClientService {
         return repo.findByContactContainingIgnoreCase(contact);
     }
 
-    public List<Client> findByNameAndContact(String name, String contact) {
-        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCase(name, contact);
+    public List<Client> findByNameAndContact(String name, String contact, Integer minCount, Integer maxCount) {
+        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetween(name, contact, minCount, maxCount);
     }
 
     public Client fromDTO(ClientDTO client){

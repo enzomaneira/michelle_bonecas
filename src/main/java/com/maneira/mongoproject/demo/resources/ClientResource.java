@@ -76,23 +76,26 @@ public class ClientResource {
     @RequestMapping(value = "/findByNameAndContact", method = RequestMethod.GET)
     public ResponseEntity<List<Client>> findByNameAndContact(
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "contact", required = false) String contact) {
+            @RequestParam(value = "contact", required = false) String contact,
+            @RequestParam(value = "minCount", required = false) String minCount,
+            @RequestParam(value = "maxCount", required = false) String maxCount
+    ) {
         if (name != null) name = URL.decodeParam(name);
         if (contact != null) contact = URL.decodeParam(contact);
+        Integer parsedMinCount = URL.convertInteger(minCount, null);
+        Integer parsedMaxCount = URL.convertInteger(maxCount, null);
+
         List<Client> list;
         if (name != null && contact != null) {
-            list = service.findByNameAndContact(name, contact);
+            list = service.findByNameAndContact(name, contact, parsedMinCount, parsedMaxCount);
         } else if (name != null) {
             list = service.findByName(name);
         } else if (contact != null) {
             list = service.findByContact(contact);
         } else {
-            // Ambos são nulos, você decide como lidar com esse caso
             return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.ok().body(list);
     }
-
-
 }

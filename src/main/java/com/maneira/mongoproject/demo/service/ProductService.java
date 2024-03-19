@@ -53,8 +53,8 @@ public class ProductService {
         return repo.findByPriceBetween(minPrice, maxPrice);
     }
 
-    public List<Product> findByNameAndPriceRange(String name, Double minPrice, Double maxPrice) {
-        return repo.findByNameIgnoreCaseContainingAndPriceBetween(name, minPrice, maxPrice);
+    public List<Product> findByNameAndPriceRange(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount) {
+        return repo.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetween(name, minPrice, maxPrice, minCount, maxCount);
     }
 
     public Product fromDto(ProductDTO product){

@@ -34,4 +34,13 @@ public class URL {
             return defaultValue;
         }
     }
+    public static Integer convertInteger(String textInteger, Integer defaultValue) {
+        try {
+            return Integer.parseInt(textInteger);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+
 }
