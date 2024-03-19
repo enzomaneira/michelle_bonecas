@@ -13,12 +13,15 @@ public class Client implements Serializable {
     private String name;
     private String contact;
 
+    private Integer count;
+
     public Client(){}
 
-    public Client(String id, String name, String contact) {
+    public Client(String id, String name, String contact, Integer count) {
         this.id = id;
         this.name = name;
         this.contact = contact;
+        this.count = 0;
     }
 
     public String getId() {
@@ -45,6 +48,15 @@ public class Client implements Serializable {
         this.contact = contact;
     }
 
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,6 +75,7 @@ public class Client implements Serializable {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
+                ", count=" + count +
                 '}';
     }
 }

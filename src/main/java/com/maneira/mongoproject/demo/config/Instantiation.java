@@ -22,7 +22,5 @@ public class Instantiation implements CommandLineRunner {
 
     @Override
     public void run(String... arg0) throws Exception {
-
-
     }
 }

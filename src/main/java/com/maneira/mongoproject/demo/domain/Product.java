@@ -1,6 +1,7 @@
 package com.maneira.mongoproject.demo.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -15,13 +16,16 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
+    private Integer count;
+
     public Product(){}
 
-    public Product(String id, String name, Double price, String imgUrl) {
+    public Product(String id, String name, Double price, String imgUrl, Integer count) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imgUrl = imgUrl;
+        this.count = 0;
     }
 
     public String getId() {
@@ -56,6 +60,14 @@ public class Product implements Serializable {
         this.imgUrl = imgUrl;
     }
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,6 +86,7 @@ public class Product implements Serializable {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", count=" + count +
                 ", imgUrl='" + imgUrl + '\'' +
                 '}';
     }

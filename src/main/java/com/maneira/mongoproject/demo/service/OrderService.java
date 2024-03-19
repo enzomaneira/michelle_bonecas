@@ -36,7 +36,15 @@ public class OrderService {
     }
 
     public Order insert(Order order) {
-        return repo.insert(order);
+        Order savedOrder = repo.insert(order);
+
+        Client client = clientService.findById(order.getClient().getId());
+        if(client != null){
+            client.setCount(client.getCount() + 1);
+            clientService.save(client);
+        }
+
+        return savedOrder;
     }
 
     public void delete(String id) {

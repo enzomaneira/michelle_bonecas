@@ -29,7 +29,7 @@ public class ClientService {
     }
 
     public Client fromDto(ClientDTO objDto){
-        return new Client(objDto.getId(), objDto.getName(), objDto.getContact());
+        return new Client(objDto.getId(), objDto.getName(), objDto.getContact(), objDto.getCount());
     }
 
     public void delete(String id){
@@ -41,6 +41,10 @@ public class ClientService {
         Client newObj = findById(obj.getId());
         updateData(newObj, obj);
         return repo.save(newObj);
+    }
+
+    public Client save(Client client){
+        return repo.save(client);
     }
 
     private void updateData(Client newObj, Client obj) {
@@ -61,6 +65,6 @@ public class ClientService {
     }
 
     public Client fromDTO(ClientDTO client){
-        return new Client(client.getId(), client.getName(), client.getContact());
+        return new Client(client.getId(), client.getName(), client.getContact(), client.getCount());
     }
 }

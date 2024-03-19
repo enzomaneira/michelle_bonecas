@@ -3,6 +3,7 @@ package com.maneira.mongoproject.demo.dto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maneira.mongoproject.demo.domain.Product;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -14,6 +15,8 @@ public class ProductDTO implements Serializable {
     private Double price;
     private String imgUrl;
 
+    private Integer count;
+
     public ProductDTO() {
 
     }
@@ -23,6 +26,7 @@ public class ProductDTO implements Serializable {
         name = obj.getName();
         price = obj.getPrice();
         imgUrl = obj.getImgUrl();
+        count = obj.getCount();
     }
 
     public ProductDTO(String jsonString) throws IOException {
@@ -64,12 +68,21 @@ public class ProductDTO implements Serializable {
         this.imgUrl = imgUrl;
     }
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     public Product toEntity() {
         Product product = new Product();
         product.setId(this.id);
         product.setName(this.name);
         product.setPrice(this.price);
         product.setImgUrl(this.imgUrl);
+        product.setCount(this.count);
         return product;
     }
 
@@ -84,6 +97,7 @@ public class ProductDTO implements Serializable {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", imgUrl='" + imgUrl + '\'' +
+                ", count=" + count +
                 '}';
     }
 }

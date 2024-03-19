@@ -1,6 +1,7 @@
 package com.maneira.mongoproject.demo.service;
 
 import com.maneira.mongoproject.demo.domain.OrderItem;
+import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.OrderItemDTO;
 import com.maneira.mongoproject.demo.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class OrderItemService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private ProductService productService;
+
     public List<OrderItem> findAll() {
         return orderItemRepository.findAll();
     }
@@ -25,6 +29,15 @@ public class OrderItemService {
     }
 
     public OrderItem insert(OrderItem orderItem) {
-        return orderItemRepository.insert(orderItem);
+        OrderItem savedOrderItem = orderItemRepository.insert(orderItem);
+
+        Product product = productService.findById(orderItem.getProduct().getId());
+
+        if (product != null) {
+            product.setCount(product.getCount() + orderItem.getQtd());
+            productService.save(product);
+        }
+
+        return savedOrderItem;
     }
 }

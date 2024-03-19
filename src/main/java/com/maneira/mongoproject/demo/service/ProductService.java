@@ -58,7 +58,11 @@ public class ProductService {
     }
 
     public Product fromDto(ProductDTO product){
-        return new Product(product.getId(), product.getName(), product.getPrice(), product.getImgUrl());
+        return new Product(product.getId(), product.getName(), product.getPrice(), product.getImgUrl(), product.getCount());
+    }
+
+    public Product save(Product product){
+        return repo.save(product);
     }
 
 }
