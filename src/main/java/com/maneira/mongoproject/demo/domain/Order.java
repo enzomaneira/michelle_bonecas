@@ -15,12 +15,11 @@ public class Order implements Serializable {
     private String id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
     private Date date;
-    @DBRef
+
     private Client client;
 
     private Double total;
 
-    @DBRef
     private Set<OrderItem> items = new HashSet<>();
 
     public Order(){}

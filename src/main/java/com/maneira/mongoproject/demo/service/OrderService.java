@@ -48,6 +48,10 @@ public class OrderService {
         return repo.findByTotalBetween(minTotal, maxTotal);
     }
 
+    public List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product) {
+        return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
+    }
+
 
     public Order fromDto(OrderDTO dto) {
         System.out.println("DTO: " + dto);

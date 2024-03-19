@@ -59,4 +59,23 @@ public class OrderResource {
         return ResponseEntity.ok().body(list);
     }
 
+    @RequestMapping(value = "/fullSearch", method = RequestMethod.GET)
+    public ResponseEntity<List<Order>> fullSearch(
+            @RequestParam(defaultValue = "") String text,
+            @RequestParam(defaultValue = "") String minDate,
+            @RequestParam(defaultValue = "") String maxDate,
+            @RequestParam(defaultValue = "0.0") Double minTotal,
+            @RequestParam(defaultValue = "100000.0") Double maxTotal,
+            @RequestParam(defaultValue = "") String client,
+            @RequestParam(defaultValue = "") String product) {
+
+        text = URL.decodeParam(text);
+        Date min = URL.convertDate(minDate, new Date(0L));
+        Date max = URL.convertDate(maxDate, new Date());
+
+        List<Order> result = orderService.fullSearch(text, min, max, minTotal, maxTotal, client, product);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
 }
