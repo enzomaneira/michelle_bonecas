@@ -41,6 +41,7 @@ public class OrderService {
         Client client = clientService.findById(order.getClient().getId());
         if(client != null){
             client.setCount(client.getCount() + 1);
+            client.setCountMoney(client.getCountMoney() + order.getTotal());
             clientService.save(client);
         }
 

@@ -83,17 +83,23 @@ public class ProductResource {
             @RequestParam(value = "minPrice", required = false) String minPrice,
             @RequestParam(value = "maxPrice", required = false) String maxPrice,
             @RequestParam(value = "minCount", required = false) String minCount,
-            @RequestParam(value = "maxCount", required = false) String maxCount)
-    {
+            @RequestParam(value = "maxCount", required = false) String maxCount,
+            @RequestParam(value = "minCountMoney", required = false) String minCountMoney,
+            @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney
+    ) {
 
         name = URL.decodeParam(name);
         Double parsedMinPrice = URL.convertDouble(minPrice, null);
         Double parsedMaxPrice = URL.convertDouble(maxPrice, null);
         Integer parsedMinCount = URL.convertInteger(minCount, null);
         Integer parsedMaxCount = URL.convertInteger(maxCount, null);
+        Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
+        Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
 
-        List<Product> list = service.findByNameAndPriceRange(name, parsedMinPrice, parsedMaxPrice, parsedMinCount, parsedMaxCount);
+        List<Product> list = service.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(name, parsedMinPrice, parsedMaxPrice, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney);
         List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
+
+
 }

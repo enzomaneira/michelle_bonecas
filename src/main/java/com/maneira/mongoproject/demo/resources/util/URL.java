@@ -27,13 +27,31 @@ public class URL {
         }
     }
 
-    public static Double convertDouble(String textDouble, Double defaultValue) {
+    public static Double convertDouble(String in, Double defaultValue) {
+        System.out.println("Valor de entrada: " + in);
+        if (in == null) {
+            System.out.println("Valor de entrada nulo. Usando valor padrão: " + defaultValue);
+            return defaultValue;
+        }
+
+        String trimmedValue = in.trim();
+        System.out.println("Valor após trim: " + trimmedValue);
+        if (trimmedValue.isEmpty()) {
+            System.out.println("Valor de entrada vazio. Usando valor padrão: " + defaultValue);
+            return defaultValue;
+        }
+
         try {
-            return Double.parseDouble(textDouble);
+            return Double.parseDouble(trimmedValue);
         } catch (NumberFormatException e) {
+            System.out.println("Erro ao converter valor para Double: " + trimmedValue);
+            // Tratar caso de conversão inválida
             return defaultValue;
         }
     }
+
+
+
     public static Integer convertInteger(String textInteger, Integer defaultValue) {
         try {
             return Integer.parseInt(textInteger);

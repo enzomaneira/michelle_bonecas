@@ -3,7 +3,6 @@ package com.maneira.mongoproject.demo.dto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maneira.mongoproject.demo.domain.Client;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,18 +12,17 @@ public class ClientDTO implements Serializable {
     private String id;
     private String name;
     private String contact;
-
     private Integer count;
+    private Double countMoney;
 
-    public ClientDTO(){
-
-    }
+    public ClientDTO() {}
 
     public ClientDTO(Client obj) {
         id = obj.getId();
         name = obj.getName();
         contact = obj.getContact();
         count = obj.getCount();
+        countMoney = obj.getCountMoney();
     }
 
     public ClientDTO(String jsonString) throws IOException {
@@ -65,15 +63,23 @@ public class ClientDTO implements Serializable {
         this.count = count;
     }
 
+    public Double getCountMoney() {
+        return countMoney;
+    }
+
+    public void setCountMoney(Double countMoney) {
+        this.countMoney = countMoney;
+    }
+
     public Client toEntity() {
         Client client = new Client();
         client.setId(this.id);
         client.setName(this.name);
         client.setContact(this.contact);
         client.setCount(this.count);
+        client.setCountMoney(this.countMoney);
         return client;
     }
-
 
     @Override
     public String toString() {
@@ -82,6 +88,7 @@ public class ClientDTO implements Serializable {
                 ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
                 ", count=" + count +
+                ", countMoney=" + countMoney +
                 '}';
     }
 }

@@ -12,16 +12,17 @@ public class Client implements Serializable {
     private String id;
     private String name;
     private String contact;
-
     private Integer count;
+    private Double countMoney;
 
-    public Client(){}
+    public Client() {}
 
-    public Client(String id, String name, String contact, Integer count) {
+    public Client(String id, String name, String contact) {
         this.id = id;
         this.name = name;
         this.contact = contact;
         this.count = 0;
+        this.countMoney = 0.0;
     }
 
     public String getId() {
@@ -48,7 +49,6 @@ public class Client implements Serializable {
         this.contact = contact;
     }
 
-
     public Integer getCount() {
         return count;
     }
@@ -57,11 +57,20 @@ public class Client implements Serializable {
         this.count = count;
     }
 
+    public Double getCountMoney() {
+        return countMoney;
+    }
+
+    public void setCountMoney(Double countMoney) {
+        this.countMoney = countMoney;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Client user)) return false;
-        return Objects.equals(getId(), user.getId());
+        if (!(o instanceof Client)) return false;
+        Client client = (Client) o;
+        return Objects.equals(getId(), client.getId());
     }
 
     @Override
@@ -76,6 +85,7 @@ public class Client implements Serializable {
                 ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
                 ", count=" + count +
+                ", countMoney=" + countMoney +
                 '}';
     }
 }

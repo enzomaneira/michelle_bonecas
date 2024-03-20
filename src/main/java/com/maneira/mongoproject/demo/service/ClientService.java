@@ -29,7 +29,7 @@ public class ClientService {
     }
 
     public Client fromDto(ClientDTO objDto){
-        return new Client(objDto.getId(), objDto.getName(), objDto.getContact(), objDto.getCount());
+        return new Client(objDto.getId(), objDto.getName(), objDto.getContact());
     }
 
     public void delete(String id){
@@ -60,11 +60,11 @@ public class ClientService {
         return repo.findByContactContainingIgnoreCase(contact);
     }
 
-    public List<Client> findByNameAndContact(String name, String contact, Integer minCount, Integer maxCount) {
-        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetween(name, contact, minCount, maxCount);
+    public List<Client> findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(String name, String contact, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney) {
+        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(name, contact, minCount, maxCount, minCountMoney, maxCountMoney);
     }
 
     public Client fromDTO(ClientDTO client){
-        return new Client(client.getId(), client.getName(), client.getContact(), client.getCount());
+        return new Client(client.getId(), client.getName(), client.getContact());
     }
 }

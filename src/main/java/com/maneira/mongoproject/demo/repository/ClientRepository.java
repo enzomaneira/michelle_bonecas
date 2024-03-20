@@ -14,7 +14,6 @@ public interface ClientRepository extends MongoRepository<Client, String> {
     List<Client> findByContactContainingIgnoreCase(String contact);
 
 
-    List<Client> findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetween(String name, String contact, Integer minCount, Integer maxCount);
-
+    List<Client> findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(String name, String contact, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney);
 
 }

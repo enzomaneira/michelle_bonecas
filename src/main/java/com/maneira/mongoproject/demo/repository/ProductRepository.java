@@ -12,6 +12,6 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 
     List<Product> findByPriceBetween(Double minPrice, Double maxPrice);
 
-    List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetween(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount);
+    List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney);
 }
 

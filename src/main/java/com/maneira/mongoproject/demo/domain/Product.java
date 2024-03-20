@@ -18,14 +18,17 @@ public class Product implements Serializable {
 
     private Integer count;
 
+    private Double countMoney;
+
     public Product(){}
 
-    public Product(String id, String name, Double price, String imgUrl, Integer count) {
+    public Product(String id, String name, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imgUrl = imgUrl;
         this.count = 0;
+        this.countMoney = 0.0;
     }
 
     public String getId() {
@@ -68,6 +71,14 @@ public class Product implements Serializable {
         this.count = count;
     }
 
+    public Double getCountMoney() {
+        return countMoney;
+    }
+
+    public void setCountMoney(Double countMoney) {
+        this.countMoney = countMoney;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,8 +97,9 @@ public class Product implements Serializable {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", count=" + count +
                 ", imgUrl='" + imgUrl + '\'' +
+                ", count=" + count +
+                ", countMoney=" + countMoney +
                 '}';
     }
 }

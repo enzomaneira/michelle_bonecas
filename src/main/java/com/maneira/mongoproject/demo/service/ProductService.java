@@ -53,12 +53,12 @@ public class ProductService {
         return repo.findByPriceBetween(minPrice, maxPrice);
     }
 
-    public List<Product> findByNameAndPriceRange(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount) {
-        return repo.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetween(name, minPrice, maxPrice, minCount, maxCount);
+    public List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney) {
+        return repo.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(name, minPrice, maxPrice, minCount, maxCount, minCountMoney, maxCountMoney);
     }
 
     public Product fromDto(ProductDTO product){
-        return new Product(product.getId(), product.getName(), product.getPrice(), product.getImgUrl(), product.getCount());
+        return new Product(product.getId(), product.getName(), product.getPrice(), product.getImgUrl());
     }
 
     public Product save(Product product){

@@ -78,16 +78,20 @@ public class ClientResource {
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "contact", required = false) String contact,
             @RequestParam(value = "minCount", required = false) String minCount,
-            @RequestParam(value = "maxCount", required = false) String maxCount
+            @RequestParam(value = "maxCount", required = false) String maxCount,
+            @RequestParam(value = "minCountMoney", required = false) String minCountMoney,
+            @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney
     ) {
         if (name != null) name = URL.decodeParam(name);
         if (contact != null) contact = URL.decodeParam(contact);
         Integer parsedMinCount = URL.convertInteger(minCount, null);
         Integer parsedMaxCount = URL.convertInteger(maxCount, null);
+        Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
+        Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
 
         List<Client> list;
         if (name != null && contact != null) {
-            list = service.findByNameAndContact(name, contact, parsedMinCount, parsedMaxCount);
+            list = service.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(name, contact, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney);
         } else if (name != null) {
             list = service.findByName(name);
         } else if (contact != null) {
@@ -98,4 +102,5 @@ public class ClientResource {
 
         return ResponseEntity.ok().body(list);
     }
+
 }
