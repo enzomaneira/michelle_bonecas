@@ -82,7 +82,7 @@ public class ClientResource {
             @RequestParam(value = "maxCount", required = false) String maxCount,
             @RequestParam(value = "minCountMoney", required = false) String minCountMoney,
             @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney,
-            @RequestParam(value = "orderBy", required = false) String orderBy,
+            @RequestParam(defaultValue = "name", required = false) String orderBy,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ) {
         name = URL.decodeParam(name);

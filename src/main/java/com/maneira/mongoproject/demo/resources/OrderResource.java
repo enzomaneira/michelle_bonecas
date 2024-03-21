@@ -69,7 +69,7 @@ public class OrderResource {
             @RequestParam(defaultValue = "100000.0") Double maxTotal,
             @RequestParam(defaultValue = "") String client,
             @RequestParam(defaultValue = "") String product,
-            @RequestParam(value = "orderBy", required = false) String orderBy,
+            @RequestParam(defaultValue = "date", required = false) String orderBy,
             @RequestParam(defaultValue = "ASC") String sortDirection) {
 
         text = URL.decodeParam(text);
