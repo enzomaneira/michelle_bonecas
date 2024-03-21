@@ -5,6 +5,7 @@ import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.repository.ProductRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -53,8 +54,12 @@ public class ProductService {
         return repo.findByPriceBetween(minPrice, maxPrice);
     }
 
-    public List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney) {
-        return repo.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(name, minPrice, maxPrice, minCount, maxCount, minCountMoney, maxCountMoney);
+    public List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, Sort sort) {
+        if (minCount == null) minCount = 0;
+        if (maxCount == null) maxCount = Integer.MAX_VALUE;
+        if (minCountMoney == null) minCountMoney = 0.0;
+        if (maxCountMoney == null) maxCountMoney = Double.MAX_VALUE;
+        return repo.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(name, minPrice, maxPrice, minCount, maxCount, minCountMoney, maxCountMoney, sort);
     }
 
     public Product fromDto(ProductDTO product){

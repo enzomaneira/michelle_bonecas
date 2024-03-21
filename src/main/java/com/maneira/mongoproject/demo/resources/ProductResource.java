@@ -5,6 +5,7 @@ import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -85,9 +86,12 @@ public class ProductResource {
             @RequestParam(value = "minCount", required = false) String minCount,
             @RequestParam(value = "maxCount", required = false) String maxCount,
             @RequestParam(value = "minCountMoney", required = false) String minCountMoney,
-            @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney
+            @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney,
+            @RequestParam(value = "orderBy", required = false) String orderBy,
+            @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ) {
 
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
         name = URL.decodeParam(name);
         Double parsedMinPrice = URL.convertDouble(minPrice, null);
         Double parsedMaxPrice = URL.convertDouble(maxPrice, null);
@@ -96,7 +100,7 @@ public class ProductResource {
         Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
         Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
 
-        List<Product> list = service.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(name, parsedMinPrice, parsedMaxPrice, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney);
+        List<Product> list = service.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(name, parsedMinPrice, parsedMaxPrice, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, sort);
         List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
