@@ -5,6 +5,7 @@ import com.maneira.mongoproject.demo.dto.OrderDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,13 +68,16 @@ public class OrderResource {
             @RequestParam(defaultValue = "0.0") Double minTotal,
             @RequestParam(defaultValue = "100000.0") Double maxTotal,
             @RequestParam(defaultValue = "") String client,
-            @RequestParam(defaultValue = "") String product) {
+            @RequestParam(defaultValue = "") String product,
+            @RequestParam(value = "orderBy", required = false) String orderBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection) {
 
         text = URL.decodeParam(text);
         Date min = URL.convertDate(minDate, new Date(0L));
         Date max = URL.convertDate(maxDate, new Date());
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
 
-        List<Order> result = orderService.fullSearch(text, min, max, minTotal, maxTotal, client, product);
+        List<Order> result = orderService.fullSearch(text, min, max, minTotal, maxTotal, client, product, sort);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

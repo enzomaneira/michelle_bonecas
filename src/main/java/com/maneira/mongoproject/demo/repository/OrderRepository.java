@@ -2,6 +2,7 @@ package com.maneira.mongoproject.demo.repository;
 
 import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.dto.OrderDTO;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,7 +27,7 @@ public interface OrderRepository extends MongoRepository<Order, String> {
             "{ 'items.product.name': { $regex: ?6, $options: 'i' } }" +
             "] }" +
             "] }")
-    List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product);
+    List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product, Sort sort);
 
 
 }

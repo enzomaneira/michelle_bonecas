@@ -10,6 +10,7 @@ import com.maneira.mongoproject.demo.dto.OrderItemDTO;
 import com.maneira.mongoproject.demo.repository.OrderRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -57,8 +58,8 @@ public class OrderService {
         return repo.findByTotalBetween(minTotal, maxTotal);
     }
 
-    public List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product) {
-        return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product);
+    public List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product, Sort sort) {
+        return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product, sort);
     }
 
 
