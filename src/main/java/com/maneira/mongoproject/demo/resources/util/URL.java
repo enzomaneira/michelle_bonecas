@@ -10,6 +10,9 @@ import java.util.TimeZone;
 public class URL {
 
     public static String decodeParam(String text) {
+        if (text == null) {
+            return null;
+        }
         try {
             return URLDecoder.decode(text, "UTF-8");
         } catch (UnsupportedEncodingException e) {

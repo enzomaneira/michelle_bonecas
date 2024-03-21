@@ -5,6 +5,7 @@ import com.maneira.mongoproject.demo.dto.ClientDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -80,27 +81,46 @@ public class ClientResource {
             @RequestParam(value = "minCount", required = false) String minCount,
             @RequestParam(value = "maxCount", required = false) String maxCount,
             @RequestParam(value = "minCountMoney", required = false) String minCountMoney,
-            @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney
+            @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney,
+            @RequestParam(value = "orderBy", required = false) String orderBy,
+            @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ) {
-        if (name != null) name = URL.decodeParam(name);
-        if (contact != null) contact = URL.decodeParam(contact);
+        name = URL.decodeParam(name);
+        contact = URL.decodeParam(contact);
         Integer parsedMinCount = URL.convertInteger(minCount, null);
         Integer parsedMaxCount = URL.convertInteger(maxCount, null);
         Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
         Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
 
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
         List<Client> list;
-        if (name != null && contact != null) {
-            list = service.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(name, contact, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney);
-        } else if (name != null) {
-            list = service.findByName(name);
-        } else if (contact != null) {
-            list = service.findByContact(contact);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        list = service.searchClient(name, contact, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, sort);
 
         return ResponseEntity.ok().body(list);
     }
+
+
+
+    @RequestMapping(value = "/orderByAlphabetical", method = RequestMethod.GET)
+    public ResponseEntity<List<ClientDTO>> findAllOrderByAlphabetical(){
+        List<Client> list = service.findAllOrderByAlphabetical();
+        List<ClientDTO> listDto = list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
+    @RequestMapping(value = "/orderByCount", method = RequestMethod.GET)
+    public ResponseEntity<List<ClientDTO>> findAllOrderByCount(){
+        List<Client> list = service.findAllOrderByCount();
+        List<ClientDTO> listDto = list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
+    @RequestMapping(value = "/orderByCountMoney", method = RequestMethod.GET)
+    public ResponseEntity<List<ClientDTO>> findAllOrderByCountMoney(){
+        List<Client> list = service.findAllOrderByCountMoney();
+        List<ClientDTO> listDto = list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
 
 }

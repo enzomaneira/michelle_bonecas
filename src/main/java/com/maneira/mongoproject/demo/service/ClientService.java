@@ -5,6 +5,7 @@ import com.maneira.mongoproject.demo.dto.ClientDTO;
 import com.maneira.mongoproject.demo.repository.ClientRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -60,11 +61,36 @@ public class ClientService {
         return repo.findByContactContainingIgnoreCase(contact);
     }
 
-    public List<Client> findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(String name, String contact, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney) {
-        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(name, contact, minCount, maxCount, minCountMoney, maxCountMoney);
+    public List<Client> searchClient(
+            String name, String contact, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, Sort sort) {
+        if (minCount == null) minCount = 0;
+        if (maxCount == null) maxCount = Integer.MAX_VALUE;
+        if (minCountMoney == null) minCountMoney = 0.0;
+        if (maxCountMoney == null) maxCountMoney = Double.MAX_VALUE;
+        if (contact == null) {
+            contact = "";
+        }
+        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(
+                name, contact, minCount, maxCount, minCountMoney, maxCountMoney, sort);
     }
+
 
     public Client fromDTO(ClientDTO client){
         return new Client(client.getId(), client.getName(), client.getContact());
     }
+
+    public List<Client> findAllOrderByAlphabetical() {
+        return repo.findAll(Sort.by(Sort.Direction.ASC, "name"));
+    }
+
+    public List<Client> findAllOrderByCount() {
+        return repo.findAll(Sort.by(Sort.Direction.DESC, "count"));
+    }
+
+    public List<Client> findAllOrderByCountMoney() {
+        return repo.findAll(Sort.by(Sort.Direction.DESC, "countMoney"));
+    }
+
+
+
 }
