@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class URL {
-
     public static String decodeParam(String text) {
         if (text == null) {
             return null;
@@ -19,7 +18,6 @@ public class URL {
             return "";
         }
     }
-
     public static Date convertDate(String textDate, Date defaultValue) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -53,8 +51,6 @@ public class URL {
         }
     }
 
-
-
     public static Integer convertInteger(String textInteger, Integer defaultValue) {
         try {
             return Integer.parseInt(textInteger);
@@ -62,6 +58,4 @@ public class URL {
             return defaultValue;
         }
     }
-
-
 }

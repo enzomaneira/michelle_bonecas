@@ -14,9 +14,7 @@ public class ProductDTO implements Serializable {
     private String name;
     private Double price;
     private String imgUrl;
-
     private Integer count;
-
     private Double countMoney;
 
     public ProductDTO() {
@@ -37,7 +35,6 @@ public class ProductDTO implements Serializable {
         ProductDTO productDTO = objectMapper.readValue(jsonString, ProductDTO.class);
         BeanUtils.copyProperties(productDTO, this);
     }
-
 
     public String getId() {
         return id;

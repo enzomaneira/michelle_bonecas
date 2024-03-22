@@ -20,7 +20,6 @@ public class ClientResource {
 
     @Autowired
     private ClientService service;
-
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<ClientDTO>> findAll(){
         List<Client> list = service.findAll();
@@ -37,7 +36,6 @@ public class ClientResource {
 
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity<Void> insert(@RequestBody ClientDTO objDto){
-        System.out.println("Dados do cliente recebidos no servidor: " + objDto.toString());
         Client obj = service.fromDto(objDto);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -99,8 +97,6 @@ public class ClientResource {
         return ResponseEntity.ok().body(list);
     }
 
-
-
     @RequestMapping(value = "/orderByAlphabetical", method = RequestMethod.GET)
     public ResponseEntity<List<ClientDTO>> findAllOrderByAlphabetical(){
         List<Client> list = service.findAllOrderByAlphabetical();
@@ -121,6 +117,4 @@ public class ClientResource {
         List<ClientDTO> listDto = list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
-
-
 }

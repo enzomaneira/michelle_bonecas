@@ -36,7 +36,6 @@ public class ProductResource {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@RequestBody ProductDTO objDto) {
-        System.out.println("Dados do produto recebidos no servidor: " + objDto.toString());
         Product obj = service.fromDto(objDto);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -81,12 +80,12 @@ public class ProductResource {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ResponseEntity<List<ProductDTO>> searchProducts(
             @RequestParam(value = "name", defaultValue = "") String name,
-            @RequestParam(value = "minPrice", required = false) String minPrice,
-            @RequestParam(value = "maxPrice", required = false) String maxPrice,
-            @RequestParam(value = "minCount", required = false) String minCount,
-            @RequestParam(value = "maxCount", required = false) String maxCount,
-            @RequestParam(value = "minCountMoney", required = false) String minCountMoney,
-            @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney,
+            @RequestParam(value = "minPrice", required = false, defaultValue = "") String minPrice,
+            @RequestParam(value = "maxPrice", required = false, defaultValue = "10000000.0") String maxPrice,
+            @RequestParam(value = "minCount", required = false, defaultValue = "") String minCount,
+            @RequestParam(value = "maxCount", required = false, defaultValue = "1000000.0") String maxCount,
+            @RequestParam(value = "minCountMoney", required = false, defaultValue = "") String minCountMoney,
+            @RequestParam(value = "maxCountMoney", required = false, defaultValue = "") String maxCountMoney,
             @RequestParam(defaultValue = "name", required = false) String orderBy,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ) {
@@ -104,6 +103,4 @@ public class ProductResource {
         List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
-
-
 }

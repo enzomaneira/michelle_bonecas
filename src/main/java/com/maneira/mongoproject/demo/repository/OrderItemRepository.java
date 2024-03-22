@@ -11,8 +11,6 @@ import java.util.List;
 
 @Repository
 public interface OrderItemRepository extends MongoRepository<OrderItem, String> {
-
     List<OrderItem> findAll();
-
     List<Order> findById();
 }

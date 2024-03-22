@@ -64,34 +64,23 @@ public class OrderService {
 
 
     public Order fromDto(OrderDTO dto) {
-        System.out.println("DTO: " + dto);
         Client client = dto.getClient();
         Date date = dto.getDate();
-        System.out.println("Client: " + client + ", Date: " + date);
         Set<OrderItem> items = new HashSet<>();
         Double total = 0.0;
         if (dto.getItems() != null) {
-            System.out.println("get items nao esta nulo:   " + dto.getItems());
             for (OrderItemDTO itemDTO : dto.getItems()) {
-                System.out.println("OrderItemDTO: " + itemDTO);
                 Product product = itemDTO.getProduct().toEntity();
-                System.out.println("ProductDTO: " + itemDTO.getProduct() + " -> Product: " + product);
                 OrderItem newOrderItem = itemDTO.toEntity();
-                System.out.println("New Order Item: " + newOrderItem);
                 newOrderItem.setProduct(product);
                 Double subTotal = newOrderItem.getSubTotal();
-                System.out.println("SubTotal: " + subTotal);
                 total += subTotal;
                 newOrderItem.setSubTotal(subTotal);
                 items.add(newOrderItem);
             }
         }
-        System.out.println("New Order Items: " + items);
-        System.out.println("Total: " + total);
         Order order = new Order(null, date, client, total);
         order.setItems(items);
-        System.out.println("Order Items in Order: " + order.getItems());
-        System.out.println("Order: " + order);
         return order;
     }
 }

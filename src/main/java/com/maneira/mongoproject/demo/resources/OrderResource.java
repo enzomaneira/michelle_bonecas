@@ -29,7 +29,6 @@ public class OrderResource {
 
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity<OrderDTO> insert(@RequestBody OrderDTO objDTO)  {
-        System.out.println("Dados do pedido recebidos no servidor: " + objDTO.toString());
         Order obj = orderService.fromDto(objDTO);
         obj = orderService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -80,6 +79,4 @@ public class OrderResource {
         List<Order> result = orderService.fullSearch(text, min, max, minTotal, maxTotal, client, product, sort);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-
 }

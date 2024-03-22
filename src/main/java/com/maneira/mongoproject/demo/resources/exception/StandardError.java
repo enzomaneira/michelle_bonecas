@@ -3,7 +3,6 @@ package com.maneira.mongoproject.demo.resources.exception;
 import java.io.Serializable;
 
 public class StandardError implements Serializable {
-
     private Long timestamp;
     private Integer status;
     private String error;

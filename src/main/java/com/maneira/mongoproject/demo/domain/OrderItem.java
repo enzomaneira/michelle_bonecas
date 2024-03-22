@@ -79,7 +79,6 @@ public class OrderItem implements Serializable {
         if (!(o instanceof OrderItem orderItem)) return false;
         return Objects.equals(getId(), orderItem.getId()) && Objects.equals(getProduct(), orderItem.getProduct()) && Objects.equals(getPrice(), orderItem.getPrice()) && Objects.equals(getQtd(), orderItem.getQtd()) && Objects.equals(getSubTotal(), orderItem.getSubTotal());
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getProduct(), getPrice(), getQtd(), getSubTotal());
@@ -90,7 +89,6 @@ public class OrderItem implements Serializable {
         Product product = new Product(productDto.getId(), productDto.getName(), productDto.getPrice(), productDto.getImgUrl());
         return new OrderItem(dto.getId(), product, dto.getPrice(), dto.getQtd());
     }
-
 
     @Override
     public String toString() {

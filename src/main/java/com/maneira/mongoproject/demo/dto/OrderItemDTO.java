@@ -74,7 +74,6 @@ public class OrderItemDTO implements Serializable {
         return orderItem;
     }
 
-
     public OrderItem toEntity() {
         return new OrderItem(id, product.toEntity(), price, qtd);
     }

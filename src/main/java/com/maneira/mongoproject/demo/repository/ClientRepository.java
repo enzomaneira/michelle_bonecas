@@ -8,13 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ClientRepository extends MongoRepository<Client, String> {
-
     List<Client> findByNameContainingIgnoreCase(String name);
-
-
     List<Client> findByContactContainingIgnoreCase(String contact);
-
-
     List<Client> findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(String name, String contact, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, Sort sort);
-
 }

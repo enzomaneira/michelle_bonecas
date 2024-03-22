@@ -12,13 +12,9 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends MongoRepository<Order, String> {
-
     List<Order> findAll();
-
     List<Order> findById();
-
     List<Order> findByTotalBetween(Double minTotal, Double maxTotal);
-
     @Query("{ $and: [ " +
             "{ date: { $gte: ?1, $lte: ?2 } }, " +
             "{ total: { $gte: ?3, $lte: ?4 } }, " +
@@ -28,6 +24,4 @@ public interface OrderRepository extends MongoRepository<Order, String> {
             "] }" +
             "] }")
     List<Order> fullSearch(String text, Date minDate, Date maxDate, Double minTotal, Double maxTotal, String client, String product, Sort sort);
-
-
 }

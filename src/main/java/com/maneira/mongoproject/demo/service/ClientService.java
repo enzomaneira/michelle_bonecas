@@ -74,7 +74,6 @@ public class ClientService {
                 name, contact, minCount, maxCount, minCountMoney, maxCountMoney, sort);
     }
 
-
     public Client fromDTO(ClientDTO client){
         return new Client(client.getId(), client.getName(), client.getContact());
     }
@@ -90,7 +89,4 @@ public class ClientService {
     public List<Client> findAllOrderByCountMoney() {
         return repo.findAll(Sort.by(Sort.Direction.DESC, "countMoney"));
     }
-
-
-
 }
