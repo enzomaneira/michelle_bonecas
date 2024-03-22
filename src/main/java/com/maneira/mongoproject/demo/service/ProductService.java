@@ -55,6 +55,8 @@ public class ProductService {
     }
 
     public List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, Sort sort) {
+        if (minPrice == null) minPrice = 0.0;
+        if (maxPrice == null) maxPrice = 10000.0;
         if (minCount == null) minCount = 0;
         if (maxCount == null) maxCount = Integer.MAX_VALUE;
         if (minCountMoney == null) minCountMoney = 0.0;
