@@ -71,4 +71,9 @@ public class ProductService {
     public Product save(Product product){
         return repo.save(product);
     }
+    public List<Product> findTopSellingProducts() {
+        Sort sortByCountDesc = Sort.by(Sort.Direction.DESC, "count");
+        return repo.findAll(sortByCountDesc);
+    }
+
 }

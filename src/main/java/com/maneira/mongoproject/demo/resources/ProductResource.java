@@ -103,4 +103,11 @@ public class ProductResource {
         List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
+
+    @RequestMapping(value = "/topSelling", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductDTO>> getTopSellingProducts() {
+        List<Product> topSellingProducts = service.findTopSellingProducts();
+        List<ProductDTO> topSellingProductsDTO = topSellingProducts.stream().map(ProductDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(topSellingProductsDTO);
+    }
 }
