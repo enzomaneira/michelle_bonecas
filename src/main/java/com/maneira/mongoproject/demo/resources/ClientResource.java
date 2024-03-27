@@ -1,7 +1,9 @@
 package com.maneira.mongoproject.demo.resources;
 
 import com.maneira.mongoproject.demo.domain.Client;
+import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.ClientDTO;
+import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,4 +119,13 @@ public class ClientResource {
         List<ClientDTO> listDto = list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
+
+    @RequestMapping(value = "/topBuyers", method = RequestMethod.GET)
+    public ResponseEntity<List<ClientDTO>> getTopSellingProducts() {
+        List<Client> topSellingProducts = service.findTopBuyers();
+        List<ClientDTO> topSellingProductsDTO = topSellingProducts.stream().map(ClientDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(topSellingProductsDTO);
+    }
+
+
 }

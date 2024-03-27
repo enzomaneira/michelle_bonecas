@@ -1,6 +1,7 @@
 package com.maneira.mongoproject.demo.service;
 
 import com.maneira.mongoproject.demo.domain.Client;
+import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.ClientDTO;
 import com.maneira.mongoproject.demo.repository.ClientRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
@@ -88,5 +89,10 @@ public class ClientService {
 
     public List<Client> findAllOrderByCountMoney() {
         return repo.findAll(Sort.by(Sort.Direction.DESC, "countMoney"));
+    }
+
+    public List<Client> findTopBuyers() {
+        Sort sortByCountDesc = Sort.by(Sort.Direction.DESC, "count");
+        return repo.findAll(sortByCountDesc);
     }
 }
