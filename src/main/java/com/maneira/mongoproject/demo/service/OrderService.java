@@ -2,6 +2,7 @@ package com.maneira.mongoproject.demo.service;
 
 import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Order;
+import com.maneira.mongoproject.demo.domain.enums.OrderStatus;
 import com.maneira.mongoproject.demo.dto.OrderDTO;
 import com.maneira.mongoproject.demo.domain.OrderItem;
 
@@ -62,12 +63,41 @@ public class OrderService {
         return repo.fullSearch(text, minDate, maxDate, minTotal, maxTotal, client, product, sort);
     }
 
+    public Order numberSearch(Integer number){
+        return repo.findByNumber(number);
+    }
+
+    public Order updateOrderStatus(String orderId, OrderStatus newStatus, Date date) {
+        Order order = findById(orderId);
+        order.setOrderStatus(newStatus);
+        switch (newStatus) {
+            case EM_CONFECCAO:
+                order.setDateInit(date);
+                break;
+            case PRONTO:
+                order.setDateEnd(date);
+                break;
+            case ENTREGUE:
+                order.setDateDeliver(date);
+                break;
+            case PAGO:
+                order.setDatePayment(date);
+                break;
+            default:
+                break;
+        }
+
+        return repo.save(order);
+    }
+
 
     public Order fromDto(OrderDTO dto) {
         Client client = dto.getClient();
         Date date = dto.getDate();
         Set<OrderItem> items = new HashSet<>();
         Double total = 0.0;
+        Integer number = dto.getNumber();
+        Integer orderStatus = dto.getOrderStatus();
         if (dto.getItems() != null) {
             for (OrderItemDTO itemDTO : dto.getItems()) {
                 Product product = itemDTO.getProduct().toEntity();
@@ -79,8 +109,9 @@ public class OrderService {
                 items.add(newOrderItem);
             }
         }
-        Order order = new Order(null, date, client, total);
+        Order order = new Order(null, number, date, client, total, OrderStatus.valueOf(orderStatus));
         order.setItems(items);
         return order;
     }
+
 }

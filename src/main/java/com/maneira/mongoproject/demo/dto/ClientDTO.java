@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class ClientDTO implements Serializable {
 
     private String id;
+    private Integer number;
     private String name;
     private String contact;
     private Integer count;
@@ -19,6 +20,7 @@ public class ClientDTO implements Serializable {
 
     public ClientDTO(Client obj) {
         id = obj.getId();
+        number = obj.getNumber();
         name = obj.getName();
         contact = obj.getContact();
         count = obj.getCount();
@@ -37,6 +39,14 @@ public class ClientDTO implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public String getName() {
@@ -74,6 +84,7 @@ public class ClientDTO implements Serializable {
     public Client toEntity() {
         Client client = new Client();
         client.setId(this.id);
+        client.setNumber(this.number);
         client.setName(this.name);
         client.setContact(this.contact);
         client.setCount(this.count);

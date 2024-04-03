@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class ProductDTO implements Serializable {
 
     private String id;
+    private Integer number;
     private String name;
     private Double price;
     private String imgUrl;
@@ -23,6 +24,7 @@ public class ProductDTO implements Serializable {
 
     public ProductDTO(Product obj) {
         id = obj.getId();
+        number = obj.getNumber();
         name = obj.getName();
         price = obj.getPrice();
         imgUrl = obj.getImgUrl();
@@ -42,6 +44,14 @@ public class ProductDTO implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public String getName() {
@@ -87,6 +97,7 @@ public class ProductDTO implements Serializable {
     public Product toEntity() {
         Product product = new Product();
         product.setId(this.id);
+        product.setNumber(this.number);
         product.setName(this.name);
         product.setPrice(this.price);
         product.setImgUrl(this.imgUrl);

@@ -10,6 +10,7 @@ public class Client implements Serializable {
 
     @Id
     private String id;
+    private Integer number;
     private String name;
     private String contact;
     private Integer count;
@@ -17,8 +18,9 @@ public class Client implements Serializable {
 
     public Client() {}
 
-    public Client(String id, String name, String contact) {
+    public Client(String id, Integer number, String name, String contact) {
         this.id = id;
+        this.number = number;
         this.name = name;
         this.contact = contact;
         this.count = 0;
@@ -63,6 +65,14 @@ public class Client implements Serializable {
 
     public void setCountMoney(Double countMoney) {
         this.countMoney = countMoney;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     @Override

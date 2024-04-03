@@ -31,7 +31,7 @@ public class ClientService {
     }
 
     public Client fromDto(ClientDTO objDto){
-        return new Client(objDto.getId(), objDto.getName(), objDto.getContact());
+        return new Client(objDto.getId(), objDto.getNumber(), objDto.getName(), objDto.getContact());
     }
 
     public void delete(String id){
@@ -76,7 +76,7 @@ public class ClientService {
     }
 
     public Client fromDTO(ClientDTO client){
-        return new Client(client.getId(), client.getName(), client.getContact());
+        return new Client(client.getId(), client.getNumber(), client.getName(), client.getContact());
     }
 
     public List<Client> findAllOrderByAlphabetical() {

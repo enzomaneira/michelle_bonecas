@@ -86,7 +86,7 @@ public class OrderItem implements Serializable {
 
     public static OrderItem fromDto(OrderItemDTO dto) {
         ProductDTO productDto = dto.getProduct();
-        Product product = new Product(productDto.getId(), productDto.getName(), productDto.getPrice(), productDto.getImgUrl());
+        Product product = new Product(productDto.getId(), productDto.getNumber(), productDto.getName(), productDto.getPrice(), productDto.getImgUrl());
         return new OrderItem(dto.getId(), product, dto.getPrice(), dto.getQtd());
     }
 

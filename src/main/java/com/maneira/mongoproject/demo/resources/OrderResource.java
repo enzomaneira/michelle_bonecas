@@ -1,11 +1,13 @@
 package com.maneira.mongoproject.demo.resources;
 
 import com.maneira.mongoproject.demo.domain.Order;
+import com.maneira.mongoproject.demo.domain.enums.OrderStatus;
 import com.maneira.mongoproject.demo.dto.OrderDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,11 +43,13 @@ public class OrderResource {
         return  ResponseEntity.ok().body(order);
     }
 
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOrder(@PathVariable String id) {
         orderService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 
     @RequestMapping(value = "findByTotal", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> searchByTotalRange(
@@ -58,6 +62,25 @@ public class OrderResource {
         List<Order> list = orderService.findByTotalRange(parsedMinTotal, parsedMaxTotal);
         return ResponseEntity.ok().body(list);
     }
+
+    @RequestMapping(value = "findByNumber", method = RequestMethod.GET)
+    public ResponseEntity<Order> searchByNumber(@RequestParam String number){
+        Integer parsedNumber = URL.convertInteger(number, null);
+        Order result = orderService.numberSearch(parsedNumber);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @RequestMapping(value = "/{id}/status", method = RequestMethod.PUT)
+    public ResponseEntity<Order> updateOrderStatus(
+            @PathVariable String id,
+            @RequestParam Integer status,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+        OrderStatus newStatus = OrderStatus.valueOf(status);
+        Order updatedOrder = orderService.updateOrderStatus(id, newStatus, date);
+        return ResponseEntity.ok().body(updatedOrder);
+    }
+
+
 
     @RequestMapping(value = "/fullSearch", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> fullSearch(

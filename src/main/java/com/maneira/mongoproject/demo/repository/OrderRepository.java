@@ -15,6 +15,8 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     List<Order> findAll();
     List<Order> findById();
     List<Order> findByTotalBetween(Double minTotal, Double maxTotal);
+
+    Order findByNumber(Integer number);
     @Query("{ $and: [ " +
             "{ date: { $gte: ?1, $lte: ?2 } }, " +
             "{ total: { $gte: ?3, $lte: ?4 } }, " +
