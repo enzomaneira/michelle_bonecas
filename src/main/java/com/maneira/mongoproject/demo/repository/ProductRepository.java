@@ -10,6 +10,7 @@ import java.util.List;
 public interface ProductRepository extends MongoRepository<Product, String> {
     List<Product> findByNameContainingIgnoreCase(String name);
     List<Product> findByPriceBetween(Double minPrice, Double maxPrice);
+    Product findByNumber(Integer number);
     List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, Sort sort);
 }
 

@@ -18,6 +18,7 @@ public class Product implements Serializable {
     private String imgUrl;
     private Integer count;
     private Double countMoney;
+    private Integer estoque;
 
     public Product(){}
 
@@ -29,6 +30,7 @@ public class Product implements Serializable {
         this.imgUrl = imgUrl;
         this.count = 0;
         this.countMoney = 0.0;
+        this.estoque = 0;
     }
 
     public String getId() {
@@ -87,6 +89,14 @@ public class Product implements Serializable {
         this.countMoney = countMoney;
     }
 
+    public Integer getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -103,11 +113,13 @@ public class Product implements Serializable {
     public String toString() {
         return "Product{" +
                 "id='" + id + '\'' +
+                ", number=" + number +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", count=" + count +
                 ", countMoney=" + countMoney +
+                ", estoque=" + estoque +
                 '}';
     }
 }

@@ -27,11 +27,6 @@ public class ClientDTO implements Serializable {
         countMoney = obj.getCountMoney();
     }
 
-    public ClientDTO(String jsonString) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ClientDTO clientDTO = objectMapper.readValue(jsonString, ClientDTO.class);
-        BeanUtils.copyProperties(clientDTO, this);
-    }
 
     public String getId() {
         return id;

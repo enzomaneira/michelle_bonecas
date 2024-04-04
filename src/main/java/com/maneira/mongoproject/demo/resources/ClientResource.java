@@ -1,9 +1,7 @@
 package com.maneira.mongoproject.demo.resources;
 
 import com.maneira.mongoproject.demo.domain.Client;
-import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.ClientDTO;
-import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,16 +73,17 @@ public class ClientResource {
     }
 
     @RequestMapping(value = "/findByNameAndContact", method = RequestMethod.GET)
-    public ResponseEntity<List<Client>> findByNameAndContact(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "contact", required = false) String contact,
-            @RequestParam(value = "minCount", required = false) String minCount,
-            @RequestParam(value = "maxCount", required = false) String maxCount,
-            @RequestParam(value = "minCountMoney", required = false) String minCountMoney,
-            @RequestParam(value = "maxCountMoney", required = false) String maxCountMoney,
+    public ResponseEntity<List<ClientDTO>> findByNameAndContact(
+            @RequestParam(value = "name", required = false, defaultValue = "") String name,
+            @RequestParam(value = "contact", required = false, defaultValue = "") String contact,
+            @RequestParam(value = "minCount", required = false, defaultValue = "") String minCount,
+            @RequestParam(value = "maxCount", required = false, defaultValue = "100000000.0") String maxCount,
+            @RequestParam(value = "minCountMoney", required = false, defaultValue = "") String minCountMoney,
+            @RequestParam(value = "maxCountMoney", required = false, defaultValue = "100000000000.0") String maxCountMoney,
             @RequestParam(defaultValue = "name", required = false) String orderBy,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
         name = URL.decodeParam(name);
         contact = URL.decodeParam(contact);
         Integer parsedMinCount = URL.convertInteger(minCount, null);
@@ -92,11 +91,9 @@ public class ClientResource {
         Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
         Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
 
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
-        List<Client> list;
-        list = service.searchClient(name, contact, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, sort);
-
-        return ResponseEntity.ok().body(list);
+        List<Client> list = service.searchClient(name, contact, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, sort);
+        List<ClientDTO> listDto = list.stream().map(ClientDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 
     @RequestMapping(value = "/orderByAlphabetical", method = RequestMethod.GET)

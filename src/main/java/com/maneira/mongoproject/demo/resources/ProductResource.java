@@ -1,5 +1,6 @@
 package com.maneira.mongoproject.demo.resources;
 
+import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
@@ -109,5 +110,19 @@ public class ProductResource {
         List<Product> topSellingProducts = service.findTopSellingProducts();
         List<ProductDTO> topSellingProductsDTO = topSellingProducts.stream().map(ProductDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(topSellingProductsDTO);
+    }
+    @RequestMapping(value = "findByNumber", method = RequestMethod.GET)
+    public ResponseEntity<Product> searchByNumber(@RequestParam String number){
+        Integer parsedNumber = URL.convertInteger(number, null);
+        Product result = service.numberSearch(parsedNumber);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @RequestMapping(value = "/{id}/stock", method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateStock(@PathVariable String id, @RequestParam Integer quantity) {
+        Product product = service.findById(id);
+        product.setEstoque(quantity);
+        service.save(product);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -90,7 +90,6 @@ public class OrderService {
         return repo.save(order);
     }
 
-
     public Order fromDto(OrderDTO dto) {
         Client client = dto.getClient();
         Date date = dto.getDate();

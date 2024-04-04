@@ -1,5 +1,6 @@
 package com.maneira.mongoproject.demo.service;
 
+import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.domain.Product;
 import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.repository.ProductRepository;
@@ -74,6 +75,10 @@ public class ProductService {
     public List<Product> findTopSellingProducts() {
         Sort sortByCountDesc = Sort.by(Sort.Direction.DESC, "count");
         return repo.findAll(sortByCountDesc);
+    }
+
+    public Product numberSearch(Integer number){
+        return repo.findByNumber(number);
     }
 
 }

@@ -17,6 +17,7 @@ public class ProductDTO implements Serializable {
     private String imgUrl;
     private Integer count;
     private Double countMoney;
+    private Integer estoque;
 
     public ProductDTO() {
 
@@ -30,6 +31,7 @@ public class ProductDTO implements Serializable {
         imgUrl = obj.getImgUrl();
         count = obj.getCount();
         countMoney = obj.getCountMoney();
+        estoque = obj.getEstoque();
     }
 
     public ProductDTO(String jsonString) throws IOException {
@@ -94,6 +96,14 @@ public class ProductDTO implements Serializable {
         this.countMoney = countMoney;
     }
 
+    public Integer getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
+    }
+
     public Product toEntity() {
         Product product = new Product();
         product.setId(this.id);
@@ -114,11 +124,13 @@ public class ProductDTO implements Serializable {
     public String toString() {
         return "ProductDTO{" +
                 "id='" + id + '\'' +
+                ", number=" + number +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", count=" + count +
                 ", countMoney=" + countMoney +
+                ", estoque=" + estoque +
                 '}';
     }
 }
