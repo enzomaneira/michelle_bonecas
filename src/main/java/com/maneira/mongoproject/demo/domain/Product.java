@@ -1,10 +1,12 @@
 package com.maneira.mongoproject.demo.domain;
 
+import com.maneira.mongoproject.demo.domain.enums.ProductType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "product")
@@ -19,10 +21,13 @@ public class Product implements Serializable {
     private Integer count;
     private Double countMoney;
     private Integer estoque;
+    private Integer releaseYear;
+    private ProductType productType;
+    private List<Client> listClients;
 
     public Product(){}
 
-    public Product(String id, Integer number, String name, Double price, String imgUrl) {
+    public Product(String id, Integer number, String name, Double price, String imgUrl, Integer releaseYear, ProductType productType) {
         this.id = id;
         this.number = number;
         this.name = name;
@@ -31,6 +36,8 @@ public class Product implements Serializable {
         this.count = 0;
         this.countMoney = 0.0;
         this.estoque = 0;
+        this.releaseYear = releaseYear;
+        this.productType = productType;
     }
 
     public String getId() {
@@ -97,6 +104,30 @@ public class Product implements Serializable {
         this.estoque = estoque;
     }
 
+    public List<Client> getListClients() {
+        return listClients;
+    }
+
+    public void setListClients(List<Client> listClients) {
+        this.listClients = listClients;
+    }
+
+    public Integer getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(Integer releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,17 +140,4 @@ public class Product implements Serializable {
         return Objects.hash(getId());
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id='" + id + '\'' +
-                ", number=" + number +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", count=" + count +
-                ", countMoney=" + countMoney +
-                ", estoque=" + estoque +
-                '}';
-    }
 }

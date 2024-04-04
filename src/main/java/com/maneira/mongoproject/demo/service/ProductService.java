@@ -1,7 +1,9 @@
 package com.maneira.mongoproject.demo.service;
 
+import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.domain.Product;
+import com.maneira.mongoproject.demo.domain.enums.ProductType;
 import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.repository.ProductRepository;
 import com.maneira.mongoproject.demo.service.exceptions.ObjectNotFoundException;
@@ -16,6 +18,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repo;
+
+    @Autowired
+    private ClientService clientService;
 
     public List<Product> findAll() {
         return repo.findAll();
@@ -55,18 +60,26 @@ public class ProductService {
         return repo.findByPriceBetween(minPrice, maxPrice);
     }
 
-    public List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, Sort sort) {
+    public List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetweenAndReleaseYearBetweenAndProductType(
+            String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney,
+            Integer minReleaseYear, Integer maxReleaseYear, ProductType productType, Sort sort) {
         if (minPrice == null) minPrice = 0.0;
         if (maxPrice == null) maxPrice = 10000.0;
         if (minCount == null) minCount = 0;
         if (maxCount == null) maxCount = Integer.MAX_VALUE;
         if (minCountMoney == null) minCountMoney = 0.0;
         if (maxCountMoney == null) maxCountMoney = Double.MAX_VALUE;
-        return repo.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(name, minPrice, maxPrice, minCount, maxCount, minCountMoney, maxCountMoney, sort);
+        if (minReleaseYear == null) minReleaseYear = 0;
+        if (maxReleaseYear == null) maxReleaseYear = Integer.MAX_VALUE;
+
+        return repo.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetweenAndReleaseYearBetweenAndProductType(
+                name, minPrice, maxPrice, minCount, maxCount, minCountMoney, maxCountMoney,
+                minReleaseYear, maxReleaseYear, productType, sort);
     }
 
+
     public Product fromDto(ProductDTO product){
-        return new Product(product.getId(), product.getNumber(),  product.getName(), product.getPrice(), product.getImgUrl());
+        return new Product(product.getId(), product.getNumber(),  product.getName(), product.getPrice(), product.getImgUrl(), product.getReleaseYear(), product.getProductType());
     }
 
     public Product save(Product product){
@@ -80,5 +93,22 @@ public class ProductService {
     public Product numberSearch(Integer number){
         return repo.findByNumber(number);
     }
+
+    public Product addClientToProduct(String productId, String clientId) {
+        Product product = findById(productId);
+        List<Client> clients = product.getListClients();
+
+        boolean clientExists = clients.stream().anyMatch(client -> client.getId().equals(clientId));
+
+        if (!clientExists) {
+            Client client = clientService.findById(clientId);
+            clients.add(client);
+            product.setListClients(clients);
+            save(product);
+        }
+
+        return product;
+    }
+
 
 }

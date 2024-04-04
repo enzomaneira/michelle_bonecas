@@ -24,6 +24,9 @@ public class OrderService {
     @Autowired
     private ClientService clientService;
 
+    @Autowired
+    private ProductService productService;
+
     public List<Order> findAll() {
         return repo.findAll();
     }
@@ -40,8 +43,16 @@ public class OrderService {
     public Order insert(Order order) {
         Order savedOrder = repo.insert(order);
 
+        if (!order.getItems().isEmpty()) {
+            OrderItem firstItem = order.getItems().iterator().next();
+            String productId = firstItem.getProduct().getId();
+            String clientId = order.getClient().getId();
+
+            productService.addClientToProduct(productId, clientId);
+        }
+
         Client client = clientService.findById(order.getClient().getId());
-        if(client != null){
+        if (client != null) {
             client.setCount(client.getCount() + 1);
             client.setCountMoney(client.getCountMoney() + order.getTotal());
             clientService.save(client);
@@ -49,6 +60,7 @@ public class OrderService {
 
         return savedOrder;
     }
+
 
     public void delete(String id) {
         findById(id);

@@ -1,12 +1,13 @@
 package com.maneira.mongoproject.demo.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maneira.mongoproject.demo.domain.Client;
 import com.maneira.mongoproject.demo.domain.Product;
+import com.maneira.mongoproject.demo.domain.enums.ProductType;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
-
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 public class ProductDTO implements Serializable {
 
@@ -18,9 +19,11 @@ public class ProductDTO implements Serializable {
     private Integer count;
     private Double countMoney;
     private Integer estoque;
+    private Integer releaseYear;
+    private ProductType productType;
+    private List<Client> listClients;
 
     public ProductDTO() {
-
     }
 
     public ProductDTO(Product obj) {
@@ -32,6 +35,9 @@ public class ProductDTO implements Serializable {
         count = obj.getCount();
         countMoney = obj.getCountMoney();
         estoque = obj.getEstoque();
+        releaseYear = obj.getReleaseYear();
+        productType = obj.getProductType();
+        listClients = obj.getListClients();
     }
 
     public ProductDTO(String jsonString) throws IOException {
@@ -104,6 +110,30 @@ public class ProductDTO implements Serializable {
         this.estoque = estoque;
     }
 
+    public Integer getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(Integer releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
+    public List<Client> getListClients() {
+        return listClients;
+    }
+
+    public void setListClients(List<Client> listClients) {
+        this.listClients = listClients;
+    }
+
     public Product toEntity() {
         Product product = new Product();
         product.setId(this.id);
@@ -113,6 +143,9 @@ public class ProductDTO implements Serializable {
         product.setImgUrl(this.imgUrl);
         product.setCount(this.count);
         product.setCountMoney(this.countMoney);
+        product.setReleaseYear(this.releaseYear);
+        product.setProductType(this.productType);
+        product.setListClients(this.listClients);
         return product;
     }
 
@@ -131,6 +164,8 @@ public class ProductDTO implements Serializable {
                 ", count=" + count +
                 ", countMoney=" + countMoney +
                 ", estoque=" + estoque +
+                ", releaseYear=" + releaseYear +
+                ", productType=" + productType +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.maneira.mongoproject.demo.resources;
 
 import com.maneira.mongoproject.demo.domain.Order;
 import com.maneira.mongoproject.demo.domain.Product;
+import com.maneira.mongoproject.demo.domain.enums.ProductType;
 import com.maneira.mongoproject.demo.dto.ProductDTO;
 import com.maneira.mongoproject.demo.resources.util.URL;
 import com.maneira.mongoproject.demo.service.ProductService;
@@ -88,7 +89,10 @@ public class ProductResource {
             @RequestParam(value = "minCountMoney", required = false, defaultValue = "") String minCountMoney,
             @RequestParam(value = "maxCountMoney", required = false, defaultValue = "") String maxCountMoney,
             @RequestParam(defaultValue = "name", required = false) String orderBy,
-            @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
+            @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
+            @RequestParam(value = "minReleaseYear", required = false) Integer minReleaseYear,
+            @RequestParam(value = "maxReleaseYear", required = false) Integer maxReleaseYear,
+            @RequestParam(value = "productType", required = false) ProductType productType
     ) {
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
@@ -100,10 +104,14 @@ public class ProductResource {
         Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
         Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
 
-        List<Product> list = service.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetween(name, parsedMinPrice, parsedMaxPrice, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, sort);
+        List<Product> list = service.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetweenAndReleaseYearBetweenAndProductType(
+                name, parsedMinPrice, parsedMaxPrice, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney,
+                minReleaseYear, maxReleaseYear, productType, sort);
+
         List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
+
 
     @RequestMapping(value = "/topSelling", method = RequestMethod.GET)
     public ResponseEntity<List<ProductDTO>> getTopSellingProducts() {
