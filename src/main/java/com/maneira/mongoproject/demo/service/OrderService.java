@@ -48,15 +48,13 @@ public class OrderService {
             String productId = firstItem.getProduct().getId();
             String clientId = order.getClient().getId();
 
-            productService.addClientToProduct(productId, clientId);
         }
 
         Client client = clientService.findById(order.getClient().getId());
-        if (client != null) {
-            client.setCount(client.getCount() + 1);
-            client.setCountMoney(client.getCountMoney() + order.getTotal());
-            clientService.save(client);
-        }
+        client.setCount(client.getCount() + 1);
+        client.setCountMoney(client.getCountMoney() + order.getTotal());
+        clientService.save(client);
+
 
         return savedOrder;
     }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.maneira.mongoproject.demo.domain.enums.ProductType.FELTRO;
+
 @Service
 public class ProductService {
 
@@ -71,6 +73,8 @@ public class ProductService {
         if (maxCountMoney == null) maxCountMoney = Double.MAX_VALUE;
         if (minReleaseYear == null) minReleaseYear = 0;
         if (maxReleaseYear == null) maxReleaseYear = Integer.MAX_VALUE;
+        if(productType == null) productType = "";
+
 
         return repo.fullSearch(
                 name, minPrice, maxPrice, minCount, maxCount, minCountMoney, maxCountMoney,

@@ -88,16 +88,15 @@ public class ProductResource {
             @RequestParam(value = "maxCount", required = false, defaultValue = "1000000.0") String maxCount,
             @RequestParam(value = "minCountMoney", required = false, defaultValue = "") String minCountMoney,
             @RequestParam(value = "maxCountMoney", required = false, defaultValue = "") String maxCountMoney,
-            @RequestParam(defaultValue = "name", required = false) String productType,
             @RequestParam(defaultValue = "name", required = false) String orderBy,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
             @RequestParam(value = "minReleaseYear", required = false) String minReleaseYear,
-            @RequestParam(value = "maxReleaseYear", required = false) String maxReleaseYear
+            @RequestParam(value = "maxReleaseYear", required = false) String maxReleaseYear,
+            @RequestParam(value = "productType", required = false) String productType
     ) {
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
         name = URL.decodeParam(name);
-        productType = URL.decodeParam(productType);
         Double parsedMinPrice = URL.convertDouble(minPrice, null);
         Double parsedMaxPrice = URL.convertDouble(maxPrice, null);
         Integer parsedMinCount = URL.convertInteger(minCount, null);
