@@ -46,7 +46,6 @@ public class URL {
             return Double.parseDouble(trimmedValue);
         } catch (NumberFormatException e) {
             System.out.println("Erro ao converter valor para Double: " + trimmedValue);
-            // Tratar caso de conversão inválida
             return defaultValue;
         }
     }

@@ -88,25 +88,28 @@ public class ProductResource {
             @RequestParam(value = "maxCount", required = false, defaultValue = "1000000.0") String maxCount,
             @RequestParam(value = "minCountMoney", required = false, defaultValue = "") String minCountMoney,
             @RequestParam(value = "maxCountMoney", required = false, defaultValue = "") String maxCountMoney,
+            @RequestParam(defaultValue = "name", required = false) String productType,
             @RequestParam(defaultValue = "name", required = false) String orderBy,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
-            @RequestParam(value = "minReleaseYear", required = false) Integer minReleaseYear,
-            @RequestParam(value = "maxReleaseYear", required = false) Integer maxReleaseYear,
-            @RequestParam(value = "productType", required = false) ProductType productType
+            @RequestParam(value = "minReleaseYear", required = false) String minReleaseYear,
+            @RequestParam(value = "maxReleaseYear", required = false) String maxReleaseYear
     ) {
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
         name = URL.decodeParam(name);
+        productType = URL.decodeParam(productType);
         Double parsedMinPrice = URL.convertDouble(minPrice, null);
         Double parsedMaxPrice = URL.convertDouble(maxPrice, null);
         Integer parsedMinCount = URL.convertInteger(minCount, null);
         Integer parsedMaxCount = URL.convertInteger(maxCount, null);
         Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
         Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
+        Integer parsedMinReleaseYear = URL.convertInteger(minReleaseYear, null);
+        Integer parsedMaxReleaseYear = URL.convertInteger(maxReleaseYear, null);
 
-        List<Product> list = service.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetweenAndReleaseYearBetweenAndProductType(
+        List<Product> list = service.fullSearch(
                 name, parsedMinPrice, parsedMaxPrice, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney,
-                minReleaseYear, maxReleaseYear, productType, sort);
+                parsedMinReleaseYear, parsedMaxReleaseYear, productType, sort);
 
         List<ProductDTO> listDto = list.stream().map(ProductDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);

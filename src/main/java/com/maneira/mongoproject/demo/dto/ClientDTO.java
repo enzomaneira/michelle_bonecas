@@ -98,4 +98,16 @@ public class ClientDTO implements Serializable {
         return client;
     }
 
+    @Override
+    public String toString() {
+        return "ClientDTO{" +
+                "id='" + id + '\'' +
+                ", number=" + number +
+                ", name='" + name + '\'' +
+                ", where='" + where + '\'' +
+                ", contact='" + contact + '\'' +
+                ", count=" + count +
+                ", countMoney=" + countMoney +
+                '}';
+    }
 }

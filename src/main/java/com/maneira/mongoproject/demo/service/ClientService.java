@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.maneira.mongoproject.demo.domain.enums.ProductType.FELTRO;
+
 @Service
 public class ClientService {
 
@@ -63,19 +65,19 @@ public class ClientService {
     }
 
     public List<Client> searchClient(
-            String name, String contact, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, String where, Sort sort) {
+            String name, String contact, String where, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, Sort sort
+    ) {
         if (minCount == null) minCount = 0;
         if (maxCount == null) maxCount = Integer.MAX_VALUE;
         if (minCountMoney == null) minCountMoney = 0.0;
         if (maxCountMoney == null) maxCountMoney = Double.MAX_VALUE;
+        if (where == null)where = "";
         if (contact == null) {
             contact = "";
         }
-        if (where == null){
-            where = "";
-        }
-        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetweenAndWhere(
-                name, contact, minCount, maxCount, minCountMoney, maxCountMoney, where, sort);
+        return repo.fullSearch(
+                name, contact, where, minCount, maxCount, minCountMoney, maxCountMoney, sort
+        );
     }
 
     public Client fromDTO(ClientDTO client){

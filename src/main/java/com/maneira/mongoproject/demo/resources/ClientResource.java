@@ -76,11 +76,11 @@ public class ClientResource {
     public ResponseEntity<List<ClientDTO>> findByNameAndContact(
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "contact", required = false, defaultValue = "") String contact,
-            @RequestParam(value = "minCount", required = false, defaultValue = "") String minCount,
-            @RequestParam(value = "maxCount", required = false, defaultValue = "100000000.0") String maxCount,
-            @RequestParam(value = "minCountMoney", required = false, defaultValue = "") String minCountMoney,
-            @RequestParam(value = "maxCountMoney", required = false, defaultValue = "100000000000.0") String maxCountMoney,
             @RequestParam(value = "where", required = false, defaultValue = "") String where,
+            @RequestParam(value = "minCount", required = false, defaultValue = "0") String minCount,
+            @RequestParam(value = "maxCount", required = false, defaultValue = "100000000.0") String maxCount,
+            @RequestParam(value = "minCountMoney", required = false, defaultValue = "0") String minCountMoney,
+            @RequestParam(value = "maxCountMoney", required = false, defaultValue = "100000000000.0") String maxCountMoney,
             @RequestParam(defaultValue = "name", required = false) String orderBy,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ) {
@@ -93,7 +93,7 @@ public class ClientResource {
         Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
         Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
 
-        List<Client> list = service.searchClient(name, contact, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, where, sort);
+        List<Client> list = service.searchClient(name, contact, where, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, sort);
         List<ClientDTO> listDto = list.stream().map(ClientDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }

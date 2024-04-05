@@ -166,6 +166,7 @@ public class ProductDTO implements Serializable {
                 ", estoque=" + estoque +
                 ", releaseYear=" + releaseYear +
                 ", productType=" + productType +
+                ", listClients=" + listClients +
                 '}';
     }
 }

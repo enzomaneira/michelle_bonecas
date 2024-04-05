@@ -60,9 +60,9 @@ public class ProductService {
         return repo.findByPriceBetween(minPrice, maxPrice);
     }
 
-    public List<Product> findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetweenAndReleaseYearBetweenAndProductType(
+    public List<Product> fullSearch(
             String name, Double minPrice, Double maxPrice, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney,
-            Integer minReleaseYear, Integer maxReleaseYear, ProductType productType, Sort sort) {
+            Integer minReleaseYear, Integer maxReleaseYear, String productType, Sort sort) {
         if (minPrice == null) minPrice = 0.0;
         if (maxPrice == null) maxPrice = 10000.0;
         if (minCount == null) minCount = 0;
@@ -72,7 +72,7 @@ public class ProductService {
         if (minReleaseYear == null) minReleaseYear = 0;
         if (maxReleaseYear == null) maxReleaseYear = Integer.MAX_VALUE;
 
-        return repo.findByNameIgnoreCaseContainingAndPriceBetweenAndCountBetweenAndCountMoneyBetweenAndReleaseYearBetweenAndProductType(
+        return repo.fullSearch(
                 name, minPrice, maxPrice, minCount, maxCount, minCountMoney, maxCountMoney,
                 minReleaseYear, maxReleaseYear, productType, sort);
     }
