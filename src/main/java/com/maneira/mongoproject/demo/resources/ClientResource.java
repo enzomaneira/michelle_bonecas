@@ -80,18 +80,20 @@ public class ClientResource {
             @RequestParam(value = "maxCount", required = false, defaultValue = "100000000.0") String maxCount,
             @RequestParam(value = "minCountMoney", required = false, defaultValue = "") String minCountMoney,
             @RequestParam(value = "maxCountMoney", required = false, defaultValue = "100000000000.0") String maxCountMoney,
+            @RequestParam(value = "where", required = false, defaultValue = "") String where,
             @RequestParam(defaultValue = "name", required = false) String orderBy,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection
     ) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
         name = URL.decodeParam(name);
         contact = URL.decodeParam(contact);
+        where = URL.decodeParam(where);
         Integer parsedMinCount = URL.convertInteger(minCount, null);
         Integer parsedMaxCount = URL.convertInteger(maxCount, null);
         Double parsedMinCountMoney = URL.convertDouble(minCountMoney, null);
         Double parsedMaxCountMoney = URL.convertDouble(maxCountMoney, null);
 
-        List<Client> list = service.searchClient(name, contact, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, sort);
+        List<Client> list = service.searchClient(name, contact, parsedMinCount, parsedMaxCount, parsedMinCountMoney, parsedMaxCountMoney, where, sort);
         List<ClientDTO> listDto = list.stream().map(ClientDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }

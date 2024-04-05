@@ -12,16 +12,18 @@ public class Client implements Serializable {
     private String id;
     private Integer number;
     private String name;
+    private String where;
     private String contact;
     private Integer count;
     private Double countMoney;
 
     public Client() {}
 
-    public Client(String id, Integer number, String name, String contact) {
+    public Client(String id, Integer number, String name, String where, String contact) {
         this.id = id;
         this.number = number;
         this.name = name;
+        this.where = where;
         this.contact = contact;
         this.count = 0;
         this.countMoney = 0.0;
@@ -41,6 +43,14 @@ public class Client implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getWhere() {
+        return where;
+    }
+
+    public void setWhere(String where) {
+        this.where = where;
     }
 
     public String getContact() {
@@ -88,14 +98,4 @@ public class Client implements Serializable {
         return Objects.hash(getId());
     }
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", contact='" + contact + '\'' +
-                ", count=" + count +
-                ", countMoney=" + countMoney +
-                '}';
-    }
 }

@@ -31,7 +31,7 @@ public class ClientService {
     }
 
     public Client fromDto(ClientDTO objDto){
-        return new Client(objDto.getId(), objDto.getNumber(), objDto.getName(), objDto.getContact());
+        return new Client(objDto.getId(), objDto.getNumber(), objDto.getName(), objDto.getWhere(), objDto.getContact());
     }
 
     public void delete(String id){
@@ -63,7 +63,7 @@ public class ClientService {
     }
 
     public List<Client> searchClient(
-            String name, String contact, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, Sort sort) {
+            String name, String contact, Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney, String where, Sort sort) {
         if (minCount == null) minCount = 0;
         if (maxCount == null) maxCount = Integer.MAX_VALUE;
         if (minCountMoney == null) minCountMoney = 0.0;
@@ -71,12 +71,15 @@ public class ClientService {
         if (contact == null) {
             contact = "";
         }
-        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetween(
-                name, contact, minCount, maxCount, minCountMoney, maxCountMoney, sort);
+        if (where == null){
+            where = "";
+        }
+        return repo.findByNameContainingIgnoreCaseAndContactContainingIgnoreCaseAndCountBetweenAndCountMoneyBetweenAndWhere(
+                name, contact, minCount, maxCount, minCountMoney, maxCountMoney, where, sort);
     }
 
     public Client fromDTO(ClientDTO client){
-        return new Client(client.getId(), client.getNumber(), client.getName(), client.getContact());
+        return new Client(client.getId(), client.getNumber(), client.getName(), client.getWhere(), client.getContact());
     }
 
     public List<Client> findAllOrderByAlphabetical() {

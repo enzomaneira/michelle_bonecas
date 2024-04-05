@@ -12,6 +12,7 @@ public class ClientDTO implements Serializable {
     private String id;
     private Integer number;
     private String name;
+    private String where;
     private String contact;
     private Integer count;
     private Double countMoney;
@@ -22,6 +23,7 @@ public class ClientDTO implements Serializable {
         id = obj.getId();
         number = obj.getNumber();
         name = obj.getName();
+        where = obj.getWhere();
         contact = obj.getContact();
         count = obj.getCount();
         countMoney = obj.getCountMoney();
@@ -50,6 +52,14 @@ public class ClientDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getWhere() {
+        return where;
+    }
+
+    public void setWhere(String where) {
+        this.where = where;
     }
 
     public String getContact() {
@@ -81,20 +91,11 @@ public class ClientDTO implements Serializable {
         client.setId(this.id);
         client.setNumber(this.number);
         client.setName(this.name);
+        client.setWhere(this.where);
         client.setContact(this.contact);
         client.setCount(this.count);
         client.setCountMoney(this.countMoney);
         return client;
     }
 
-    @Override
-    public String toString() {
-        return "ClientDTO{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", contact='" + contact + '\'' +
-                ", count=" + count +
-                ", countMoney=" + countMoney +
-                '}';
-    }
 }
