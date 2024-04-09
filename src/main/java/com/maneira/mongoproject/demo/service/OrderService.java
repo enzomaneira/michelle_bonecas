@@ -47,21 +47,13 @@ public class OrderService {
         if (existingOrder != null) {
             throw new RuntimeException("Um pedido com o número " + number + " já existe.");
         }
-
         Order savedOrder = repo.insert(order);
-
         if (!order.getItems().isEmpty()) {
             OrderItem firstItem = order.getItems().iterator().next();
             String productId = firstItem.getProduct().getId();
             String clientId = order.getClient().getId();
 
         }
-
-        Client client = clientService.findById(order.getClient().getId());
-        client.setCount(client.getCount() + 1);
-        client.setCountMoney(client.getCountMoney() + order.getTotal());
-        clientService.save(client);
-
         return savedOrder;
     }
 
@@ -86,7 +78,9 @@ public class OrderService {
 
     public Order updateOrderStatus(String orderId, OrderStatus newStatus, Date date) {
         Order order = findById(orderId);
+        OrderStatus oldStatus = order.getOrderStatus();
         order.setOrderStatus(newStatus);
+
         switch (newStatus) {
             case EM_CONFECCAO:
                 order.setDateInit(date);
@@ -98,13 +92,33 @@ public class OrderService {
                 order.setDateDeliver(date);
                 break;
             case PAGO:
+                if (oldStatus != OrderStatus.PAGO) {
+                    Client client = clientService.findById(order.getClient().getId());
+                    client.setCount(client.getCount() + 1);
+                    client.setCountMoney(client.getCountMoney() + order.getTotal());
+                    clientService.save(client);
+
+                    for (OrderItem item : order.getItems()) {
+                        Product product = productService.findById(item.getProduct().getId());
+                        product.setCount(product.getCount() + item.getQtd());
+                        product.setCountMoney(product.getCountMoney() + item.getSubTotal());
+                        productService.save(product);
+                    }
+                }
                 order.setDatePayment(date);
                 break;
+            case CANCELADO:
+                setCancel(order);
             default:
                 break;
         }
 
         return repo.save(order);
+    }
+
+
+    public Order setCancel(Order order){
+        return order;
     }
 
     public Order fromDto(OrderDTO dto) {

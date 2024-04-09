@@ -33,11 +33,6 @@ public class OrderItemService {
 
         Product product = productService.findById(orderItem.getProduct().getId());
 
-        if (product != null) {
-            product.setCount(product.getCount() + orderItem.getQtd());
-            product.setCountMoney(product.getCountMoney() + orderItem.getSubTotal());
-            productService.save(product);
-        }
 
         return savedOrderItem;
     }

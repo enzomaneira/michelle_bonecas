@@ -6,7 +6,8 @@ public enum OrderStatus {
     EM_CONFECCAO(2),
     PRONTO(3),
     ENTREGUE(4),
-    PAGO(5);
+    PAGO(5),
+    CANCELADO(6);
 
     private int code;
 
