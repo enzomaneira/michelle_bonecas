@@ -41,6 +41,13 @@ public class OrderService {
     }
 
     public Order insert(Order order) {
+        Integer number = order.getNumber();
+        Order existingOrder = numberSearch(number);
+
+        if (existingOrder != null) {
+            throw new RuntimeException("Um pedido com o número " + number + " já existe.");
+        }
+
         Order savedOrder = repo.insert(order);
 
         if (!order.getItems().isEmpty()) {
@@ -55,9 +62,9 @@ public class OrderService {
         client.setCountMoney(client.getCountMoney() + order.getTotal());
         clientService.save(client);
 
-
         return savedOrder;
     }
+
 
 
     public void delete(String id) {

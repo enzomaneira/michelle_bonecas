@@ -28,9 +28,17 @@ public class ClientService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
-    public Client insert(Client client){
+    public Client insert(Client client) {
+        Integer number = client.getNumber();
+        Client existingClient = repo.findByNumber(number);
+
+        if (existingClient != null) {
+            throw new RuntimeException("Um cliente com o número " + number + " já existe.");
+        }
+
         return repo.insert(client);
     }
+
 
     public Client fromDto(ClientDTO objDto){
         return new Client(objDto.getId(), objDto.getNumber(), objDto.getName(), objDto.getWhere(), objDto.getContact());

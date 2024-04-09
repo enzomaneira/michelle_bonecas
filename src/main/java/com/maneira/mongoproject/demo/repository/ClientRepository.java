@@ -23,4 +23,6 @@ public interface ClientRepository extends MongoRepository<Client, String> {
             Integer minCount, Integer maxCount, Double minCountMoney, Double maxCountMoney,
             Sort sort);
 
+    Client findByNumber(Integer number);
+
 }

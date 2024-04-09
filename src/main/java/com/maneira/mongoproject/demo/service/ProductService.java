@@ -34,8 +34,16 @@ public class ProductService {
     }
 
     public Product insert(Product product) {
+        Integer number = product.getNumber();
+        Product existingProduct = repo.findByNumber(number);
+
+        if (existingProduct != null) {
+            throw new RuntimeException("Um produto com o número " + number + " já existe.");
+        }
+
         return repo.insert(product);
     }
+
 
     public void delete(String id) {
         findById(id);
@@ -113,6 +121,8 @@ public class ProductService {
 
         return product;
     }
+
+
 
 
 }
