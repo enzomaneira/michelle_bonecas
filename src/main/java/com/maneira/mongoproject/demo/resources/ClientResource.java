@@ -126,5 +126,12 @@ public class ClientResource {
         return ResponseEntity.ok().body(topSellingProductsDTO);
     }
 
+    @RequestMapping(value = "/findByNumber", method = RequestMethod.GET)
+    public ResponseEntity<Client> findByNumber(@RequestParam String number){
+        Integer parsedNumber = URL.convertInteger(number, null);
+        Client client = service.findByNumber(parsedNumber);
+        return ResponseEntity.ok().body(client);
+    }
+
 
 }

@@ -53,6 +53,7 @@ public class ProductService {
     public Product update(Product obj) {
         Product newObj = findById(obj.getId());
         updateData(newObj, obj);
+        newObj.setProductType(obj.getProductType());
         return repo.save(newObj);
     }
 

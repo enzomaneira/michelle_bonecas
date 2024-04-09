@@ -62,6 +62,8 @@ public class ClientService {
     private void updateData(Client newObj, Client obj) {
         newObj.setName(obj.getName());
         newObj.setContact(obj.getContact());
+        newObj.setNumber(obj.getNumber());
+        newObj.setWhere(obj.getWhere());
     }
 
     public List<Client> findByName(String name) {
@@ -107,5 +109,9 @@ public class ClientService {
     public List<Client> findTopBuyers() {
         Sort sortByCountDesc = Sort.by(Sort.Direction.DESC, "count");
         return repo.findAll(sortByCountDesc);
+    }
+
+    public Client findByNumber(Integer number){
+        return repo.findByNumber(number);
     }
 }
