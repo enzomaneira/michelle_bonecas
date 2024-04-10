@@ -80,7 +80,13 @@ public class OrderResource {
         return ResponseEntity.ok().body(updatedOrder);
     }
 
-
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(@RequestBody OrderDTO objDTO, @PathVariable String id) {
+        Order obj = orderService.fromDto(objDTO);
+        obj.setId(id);
+        obj = orderService.update(obj);
+        return ResponseEntity.noContent().build();
+    }
 
     @RequestMapping(value = "/fullSearch", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> fullSearch(

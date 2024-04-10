@@ -40,4 +40,15 @@ public class OrderItemResource {
         orderItem = orderItemService.insert(orderItem);
         return ResponseEntity.status(HttpStatus.CREATED).body(orderItem);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<OrderItem> updateOrderItem(
+            @PathVariable String id,
+            @RequestBody OrderItemDTO orderItemDTO) {
+        OrderItem orderItem = orderItemDTO.fromDto(orderItemDTO);
+        orderItem.setId(id);
+        orderItem = orderItemService.update(orderItem);
+        return ResponseEntity.ok().body(orderItem);
+    }
+
 }

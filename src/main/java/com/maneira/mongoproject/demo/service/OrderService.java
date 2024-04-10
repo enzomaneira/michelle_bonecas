@@ -144,4 +144,25 @@ public class OrderService {
         return order;
     }
 
+    public Order update(Order obj) {
+        Order newObj = findById(obj.getId());
+        updateData(newObj, obj);
+        newObj.setOrderStatus(obj.getOrderStatus());
+        return repo.save(newObj);
+    }
+
+    private void updateData(Order newObj, Order obj) {
+        newObj.setNumber(obj.getNumber());
+        newObj.setDate(obj.getDate());
+        newObj.setClient(obj.getClient());
+        newObj.setTotal(obj.getTotal());
+        newObj.setItems(obj.getItems());
+        newObj.setDateInit(obj.getDateInit());
+        newObj.setDateEnd(obj.getDateEnd());
+        newObj.setDateDeliver(obj.getDateDeliver());
+        newObj.setDatePayment(obj.getDatePayment());
+    }
+
+
+
 }

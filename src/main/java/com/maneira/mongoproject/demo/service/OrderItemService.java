@@ -30,10 +30,22 @@ public class OrderItemService {
 
     public OrderItem insert(OrderItem orderItem) {
         OrderItem savedOrderItem = orderItemRepository.insert(orderItem);
-
         Product product = productService.findById(orderItem.getProduct().getId());
-
-
         return savedOrderItem;
     }
+
+    public OrderItem update(OrderItem orderItem) {
+        OrderItem existingItem = findById(orderItem.getId());
+        if (existingItem == null) {
+            throw new RuntimeException("Item de pedido não encontrado com ID: " + orderItem.getId());
+        }
+
+        existingItem.setProduct(orderItem.getProduct());
+        existingItem.setPrice(orderItem.getPrice());
+        existingItem.setQtd(orderItem.getQtd());
+        existingItem.setSubTotal(orderItem.getSubTotal());
+
+        return orderItemRepository.save(existingItem);
+    }
+
 }
