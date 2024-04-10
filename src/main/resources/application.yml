@@ -1,0 +1,6 @@
+spring:
+   data:
+     mongodb:
+       database: michelle_bonecas
+       host: mongodb
+       port: 27017
